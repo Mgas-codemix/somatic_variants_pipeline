@@ -38,3 +38,12 @@ dependencies:
   - cutadapt
   - seqtk
   - fastqc
+  - multiqc
+  - bcftools
+  - r-dplyr
+  - r-tidyverse
+  - r-gt
+  - r-knitr
+  - r-dt
+  - r-rmarkdown
+  - r-ggplot2

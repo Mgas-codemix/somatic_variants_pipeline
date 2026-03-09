@@ -56,6 +56,19 @@ RUN R -e "install.packages(c('data.table', 'ggplot2', 'ggsci', 'ggpubr', 'reshap
 # Bioconductor packages for real BED interval overlap
 RUN R -e "if (!requireNamespace('BiocManager', quietly=TRUE)) install.packages('BiocManager', repos='https://cloud.r-project.org/'); BiocManager::install(c('GenomicRanges', 'IRanges', 'S4Vectors'), ask=FALSE)"
 
+# MultiQC (Python-based QC aggregator)
+RUN pip3 install multiqc
+
+# BCFtools
+RUN apt-get update && apt-get install -y --no-install-recommends bcftools && rm -rf /var/lib/apt/lists/*
+
+# Quarto (for HTML clinical report rendering)
+RUN wget -q https://github.com/quarto-dev/quarto-cli/releases/download/v1.4.553/quarto-1.4.553-linux-amd64.deb -O /tmp/quarto.deb \
+    && dpkg -i /tmp/quarto.deb && rm /tmp/quarto.deb
+
+# R packages for Quarto clinical report
+RUN R -e "install.packages(c('dplyr','tidyverse','readr','readxl','gt','htmltools','tibble','gtExtras','knitr','kableExtra','DT','tidyr','rmarkdown','ggplot2'), repos='https://cloud.r-project.org/', Ncpus=2)"
+
 # Install Java tools to /opt
 ENV OPT=/opt/somatic
 RUN mkdir -p ${OPT}/jars
