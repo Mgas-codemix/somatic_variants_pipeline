@@ -1,0 +1,24 @@
+##fileformat=VCFv4.1
+##fileDate=20240101
+##source=COSMIC_v97
+##reference=file://test_data/reference/ref.fa
+##contig=<ID=chr1,length=50000>
+##contig=<ID=chr2,length=25000>
+##INFO=<ID=GENE,Number=1,Type=String,Description="Gene name">
+##INFO=<ID=STRAND,Number=1,Type=String,Description="Gene strand">
+##INFO=<ID=CDS,Number=1,Type=String,Description="CDS annotation">
+##INFO=<ID=AA,Number=1,Type=String,Description="Peptide annotation">
+##INFO=<ID=CNT,Number=1,Type=Integer,Description="How many samples have this mutation">
+##INFO=<ID=SNP,Number=0,Type=Flag,Description="classified as SNP">
+##FILTER=<ID=PASS,Description="All filters passed">
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO
+chr1	10100	COSM100001	A	G	.	PASS	GENE=GENE1;STRAND=+;CDS=c.100A>G;AA=p.T34A;CNT=5
+chr1	12000	COSM100002	C	T	.	PASS	GENE=GENE1;STRAND=+;CDS=c.300C>T;AA=p.P100L;CNT=12
+chr1	14500	COSM100003	G	T	.	PASS	GENE=GENE1;STRAND=+;CDS=c.450G>T;AA=p.R150X;CNT=8
+chr1	30500	COSM100004	T	A	.	PASS	GENE=GENE2;STRAND=-;CDS=c.200T>A;AA=p.L67Q;CNT=3
+chr1	36000	COSM100005	A	C	.	PASS	GENE=GENE2;STRAND=-;CDS=c.400A>C;AA=p.N134H;CNT=15
+chr1	38000	COSM100006	C	G	.	PASS	GENE=GENE2;STRAND=-;CDS=c.500C>G;AA=p.P167R;CNT=7
+chr2	6000	COSM200001	G	A	.	PASS	GENE=GENE3;STRAND=+;CDS=c.150G>A;AA=p.R50H;CNT=9
+chr2	9000	COSM200002	T	G	.	PASS	GENE=GENE3;STRAND=+;CDS=c.350T>G;AA=p.V117G;CNT=4
+chr2	11500	COSM200003	A	T	.	PASS	GENE=GENE4;STRAND=-;CDS=c.200A>T;AA=p.E67V;CNT=11
+chr2	13000	COSM200004	C	A	.	PASS	GENE=GENE4;STRAND=-;CDS=c.300C>A;AA=p.H100N;CNT=6
