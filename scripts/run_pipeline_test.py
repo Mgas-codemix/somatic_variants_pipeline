@@ -214,6 +214,10 @@ def compute_tmb(variants: list[dict],
                 exome_mb: float,
                 territory: str = "on_target") -> dict[str, float]:
     """Return TMB per sample for a given territory."""
+    if exome_mb <= 0:
+        print("[WARN] compute_tmb: exome_mb is zero or negative — skipping TMB computation",
+              file=sys.stderr)
+        return {}
     counts: dict[str, int] = Counter()
     for v in variants:
         if territory == "all" or v.get("territory") == territory:
