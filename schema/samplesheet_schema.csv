@@ -1,0 +1,20 @@
+column,required,type,description
+sample_id,yes,string,Unique sample identifier (e.g. barcode or sample name)
+run_mode,yes,string,from_pretty_csv | from_fastq | from_bam | from_vcf
+patient_id,no,string,Patient or subject identifier for grouping
+kit,yes,string,WHOLE_EXOME or GENE_PANEL (affects mark_duplicates and target BED)
+project,no,string,Project or cohort label
+variants_pretty_csv,cond,string,Path to *_variants_pretty.csv (required when run_mode=from_pretty_csv)
+fastq_r1,cond,string,Path to R1 FASTQ (required when run_mode=from_fastq)
+fastq_r2,cond,string,Path to R2 FASTQ (required when run_mode=from_fastq; use . for single-end)
+bam,cond,string,Path to BAM (required when run_mode=from_bam)
+tumor_sample_id,no,string,Tumor sample_id for somatic pairing (tumor-normal mode)
+normal_sample_id,no,string,Normal sample_id for somatic pairing (tumor-normal mode)
+adapter_r1,no,string,Adapter sequence for R1 (Cutadapt); overrides params if set
+adapter_r2,no,string,Adapter sequence for R2 (Cutadapt); overrides params if set
+cancer_site,no,string,Cancer site for variant filtering (e.g. soft_tissue_sarcoma, lung)
+read_group_id,no,string,Read group ID (default: sample_id)
+read_group_lb,no,string,Read group library (default: lib1)
+read_group_pl,no,string,Read group platform (default: ILLUMINA)
+read_group_sm,no,string,Read group sample (default: sample_id)
+read_group_pu,no,string,Read group platform unit (default: kit name or sample_id)

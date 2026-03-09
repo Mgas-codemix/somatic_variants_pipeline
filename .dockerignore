@@ -1,0 +1,40 @@
+# Git and IDE
+.git
+.gitignore
+.cursor
+*.swp
+*~
+
+# Nextflow and test outputs (keep pipeline code)
+work/
+results/
+results_test/
+.nextflow/
+*.log
+
+# Large or sensitive data (mount at run time)
+*.bam
+*.bai
+*.vcf
+*.vcf.gz
+*.fastq
+*.fastq.gz
+*.fq
+*.fq.gz
+!test_data/*.fastq.gz
+
+# Reference data (mount at run time)
+*.fa
+*.fa.fai
+*.fasta
+*.bwt
+*.pac
+*.ann
+*.amb
+*.sa
+humandb/
+
+# Documentation and plans (optional, reduce image context size)
+docs/
+.cursor/
+*.plan.md

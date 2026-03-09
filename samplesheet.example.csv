@@ -1,0 +1,5 @@
+sample_id,run_mode,patient_id,kit,project,variants_pretty_csv,fastq_r1,fastq_r2,bam,tumor_sample_id,normal_sample_id,adapter_r1,adapter_r2,cancer_site,read_group_id,read_group_lb,read_group_pl,read_group_sm,read_group_pu
+TUMOR_01,from_fastq,PAT001,WHOLE_EXOME,project_a,,/data/fastq/TUMOR_01_R1.fastq.gz,/data/fastq/TUMOR_01_R2.fastq.gz,,TUMOR_01,,AGATCGGAAGAGCACACGTCTGAACTCCAGTCA,AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT,soft_tissue_sarcoma,TUMOR_01,lib1,ILLUMINA,TUMOR_01,unit1
+NORMAL_01,from_fastq,PAT001,WHOLE_EXOME,project_a,,/data/fastq/NORMAL_01_R1.fastq.gz,/data/fastq/NORMAL_01_R2.fastq.gz,,,NORMAL_01,AGATCGGAAGAGCACACGTCTGAACTCCAGTCA,AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT,,NORMAL_01,lib1,ILLUMINA,NORMAL_01,unit1
+TUMOR_02,from_fastq,PAT002,WHOLE_EXOME,project_a,,/data/fastq/TUMOR_02_R1.fastq.gz,/data/fastq/TUMOR_02_R2.fastq.gz,,,,,,,lung,,,,,
+sample1,from_pretty_csv,PAT003,WHOLE_EXOME,project_b,/path/to/sample1_variants_pretty.csv,,,,,,,,,,,,,,

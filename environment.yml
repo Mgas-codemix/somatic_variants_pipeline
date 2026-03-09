@@ -1,0 +1,30 @@
+# Conda environment for Somatic Variants Pipeline
+# Create: conda env create -f environment.yml
+# Activate: conda activate somatic-variants
+#
+# Java tools (GATK, Picard, MuTect, VarScan) and ANNOVAR are not in Conda;
+# install them manually or use the Docker image (-profile docker).
+# For Excel reports (optional): Rscript scripts/install_r_packages.R
+
+name: somatic-variants
+
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+
+dependencies:
+  # Nextflow requires Java 11+; GATK 3 / Picard work with Java 11
+  - openjdk=11
+  - nextflow>=22.0
+  # R and required R package (xlsx is optional; install via install_r_packages.R if needed)
+  - r-base>=4.0
+  - r-data.table
+  # Python (merge_callers_prepare_annovar.py uses only stdlib)
+  - python>=3.8
+  # Alignment and QC (from_fastq upstream)
+  - bwa
+  - samtools
+  - cutadapt
+  - seqtk
+  - fastqc

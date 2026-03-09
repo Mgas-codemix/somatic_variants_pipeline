@@ -1,0 +1,2 @@
+sample_id,run_mode,patient_id,kit,project,variants_pretty_csv,fastq_r1,fastq_r2,bam,tumor_sample_id,normal_sample_id,adapter_r1,adapter_r2,cancer_site,read_group_id,read_group_lb,read_group_pl,read_group_sm,read_group_pu
+mock_tumor,from_fastq,PAT_TEST,WHOLE_EXOME,test_project,,test_data/mock_tumor_R1.fastq.gz,.,,,,,,,mock_tumor,lib1,ILLUMINA,mock_tumor,unit1

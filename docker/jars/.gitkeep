@@ -1,0 +1,2 @@
+# Place MuTect 1.1.7 JAR here as muTect-1.1.7.jar (or mutect-1.1.7.jar) for full from_fastq support.
+# Picard, GATK, VarScan are installed in the image; MuTect must be added (Broad license).

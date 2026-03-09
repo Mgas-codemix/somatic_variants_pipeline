@@ -1,0 +1,36 @@
+# Nextflow
+work/
+.nextflow/
+.nextflow.log*
+.nextflow.log.*
+
+# Results (optional: remove if you want to track example results)
+results/
+results_from_*/
+
+# OS / editor
+.DS_Store
+*.swp
+*~
+.~lock.*
+
+# Conda
+.conda/
+*.conda
+
+# IDE
+.idea/
+.vscode/
+*.sublime-*
+
+# Large / local data
+*.bam
+*.bai
+*.vcf
+*.vcf.gz
+*.tbi
+*.fq
+*.fastq
+*.fastq.gz
+test_data/*.fq
+test_data/*.fastq*
