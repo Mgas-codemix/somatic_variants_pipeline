@@ -48,6 +48,19 @@ RUN wget -q https://github.com/lh3/seqtk/archive/refs/tags/v1.4.tar.gz -O /tmp/s
 # R packages required by pipeline scripts
 RUN R -e "install.packages(c('data.table', 'xlsx'), repos='https://cloud.r-project.org/', Ncpus=2)"
 
+# MultiQC (Python-based QC aggregator)
+RUN pip3 install multiqc
+
+# BCFtools
+RUN apt-get update && apt-get install -y --no-install-recommends bcftools && rm -rf /var/lib/apt/lists/*
+
+# Quarto (for HTML clinical report rendering)
+RUN wget -q https://github.com/quarto-dev/quarto-cli/releases/download/v1.4.553/quarto-1.4.553-linux-amd64.deb -O /tmp/quarto.deb \
+    && dpkg -i /tmp/quarto.deb && rm /tmp/quarto.deb
+
+# R packages for Quarto clinical report
+RUN R -e "install.packages(c('dplyr','tidyverse','readr','readxl','gt','htmltools','tibble','gtExtras','knitr','kableExtra','DT','tidyr','rmarkdown','ggplot2'), repos='https://cloud.r-project.org/', Ncpus=2)"
+
 # Install Java tools to /opt
 ENV OPT=/opt/somatic
 RUN mkdir -p ${OPT}/jars

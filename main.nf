@@ -61,6 +61,13 @@ include { MUTECT }                      from "./modules/somatic/mutect.nf"
 include { VARSCAN }                     from "./modules/somatic/varscan.nf"
 include { MERGE_CALLERS_ANNOVAR }       from "./modules/somatic/merge_callers_annovar.nf"
 include { COLLECT_PRETTY }              from "./modules/somatic/collect_pretty.nf"
+include { FASTQC as FASTQC_RAW }        from "./modules/somatic/fastqc.nf"
+include { FASTQC as FASTQC_TRIMMED }    from "./modules/somatic/fastqc.nf"
+include { SAMTOOLS_STATS }              from "./modules/somatic/samtools_stats.nf"
+include { BCFTOOLS_STATS as BCFTOOLS_STATS_MUTECT }  from "./modules/somatic/bcftools_stats.nf"
+include { BCFTOOLS_STATS as BCFTOOLS_STATS_VARSCAN } from "./modules/somatic/bcftools_stats.nf"
+include { MULTIQC }                     from "./modules/somatic/multiqc.nf"
+include { CLINICAL_REPORT_QUARTO }      from "./modules/somatic/clinical_report_quarto.nf"
 
 // --- Channels from samplesheet ---
 ch_samplesheet_pretty = Channel
@@ -93,7 +100,9 @@ ch_fastq_rows = Channel
 
 // --- Downstream (shared): parse -> annotate -> QC -> reports ---
 workflow downstream_from_parse {
-  take: parse_out
+  take:
+    parse_out
+    multiqc_html  // optional: path to MultiQC report (empty file when not available)
   main:
     ANNOTATE_TARGET_BAIT(parse_out, file(target_bed), file(bait_bed))
     SELECT_CANDIDATES(ANNOTATE_TARGET_BAIT.out, params.ref_rdata_dir ?: ".", params.false_cancer_genes ?: "", params.gene_categories_repo ?: "")
@@ -106,6 +115,16 @@ workflow downstream_from_parse {
     ch_qc_pdf   = QC_TERRITORIES.out
     ch_tmb_csv  = TMB.out
     ch_reports  = CLINICAL_REPORTS.out
+    if (!params.skip_quarto_report) {
+      CLINICAL_REPORT_QUARTO(
+        ch_somatic_rds,
+        ch_qc_pdf,
+        ch_tmb_csv,
+        MAF_ANALYSIS.out.out_pdf,
+        ch_reports,
+        multiqc_html
+      )
+    }
   emit:
     somatic_rds = ch_somatic_rds
     qc_pdf      = ch_qc_pdf
@@ -116,8 +135,9 @@ workflow downstream_from_parse {
 // --- Workflow: from_pretty_csv (downstream only) ---
 workflow from_pretty_csv {
   main:
+    ch_no_multiqc = Channel.fromPath("${projectDir}/assets/empty.txt").first()
     PARSE_PRETTY_CSV(ch_samplesheet_pretty)
-    downstream_from_parse(PARSE_PRETTY_CSV.out)
+    downstream_from_parse(PARSE_PRETTY_CSV.out, ch_no_multiqc)
 }
 
 // --- Workflow: from_fastq (upstream only: FASTQ -> pretty CSV) ---
@@ -127,16 +147,54 @@ workflow from_fastq {
     ch_dbsnp    = Channel.fromPath(params.dbsnp_vcf).first()
     ch_cosmic   = Channel.fromPath(params.cosmic_vcf).first()
     BUILD_BWA_INDEX(ch_ref_fasta)
+
+    // FastQC on raw FASTQs (pre-trim)
+    if (!params.skip_fastqc) {
+      FASTQC_RAW(ch_fastq_rows.map { sid, r1, r2, pid, kit, proj, ar1, ar2 -> [ sid, r1, r2 ] })
+    }
+
     TRIM_FASTQ(ch_fastq_rows)
+
+    // FastQC on trimmed FASTQs (post-trim)
+    if (!params.skip_fastqc) {
+      FASTQC_TRIMMED(TRIM_FASTQ.out.map { sid, r1, r2, pid, kit, proj -> [ sid, r1, r2 ] })
+    }
+
     ALIGN_BWA(TRIM_FASTQ.out, BUILD_BWA_INDEX.out.ref_index)
     ADD_READ_GROUPS(ALIGN_BWA.out)
     MARK_DUPLICATES(ADD_READ_GROUPS.out)
-    BQSR(MARK_DUPLICATES.out, ch_ref_fasta, ch_dbsnp)
+    BQSR(MARK_DUPLICATES.out.bam, ch_ref_fasta, ch_dbsnp)
+    SAMTOOLS_STATS(BQSR.out)
     MUTECT(BQSR.out, ch_ref_fasta, ch_dbsnp, ch_cosmic)
     VARSCAN(BQSR.out, ch_ref_fasta)
+    BCFTOOLS_STATS_MUTECT(MUTECT.out.map { sid, vcf, pid, kit, proj -> [ sid, vcf ] })
+    BCFTOOLS_STATS_VARSCAN(VARSCAN.out.map { sid, snp, indel, pid, kit, proj -> [ sid, snp ] })
+    // Join MUTECT (sample_id, vcf, patient_id, kit, project) with
+    // VARSCAN (sample_id, snp_vcf, indel_vcf, patient_id, kit, project)
+    // → merged tuple: (sample_id, mutect_vcf, varscan_snp_vcf, varscan_indel_vcf, patient_id, kit, project)
     ch_merge = MUTECT.out.join(VARSCAN.out).map { m, v -> [ m[0], m[1], v[1], v[2], m[2], m[3], m[4] ] }
     MERGE_CALLERS_ANNOVAR(ch_merge)
     COLLECT_PRETTY(MERGE_CALLERS_ANNOVAR.out)
+
+    // Aggregate all QC with MultiQC
+    ch_multiqc_html = Channel.fromPath("${projectDir}/assets/empty.txt").first()
+    if (!params.skip_multiqc) {
+      ch_qc = Channel.empty()
+      if (!params.skip_fastqc) {
+        ch_qc = ch_qc.mix(FASTQC_RAW.out.zip)
+        ch_qc = ch_qc.mix(FASTQC_TRIMMED.out.zip)
+      }
+      ch_qc = ch_qc.mix(MARK_DUPLICATES.out.metrics)
+      ch_qc = ch_qc.mix(SAMTOOLS_STATS.out.stats)
+      ch_qc = ch_qc.mix(SAMTOOLS_STATS.out.flagstat)
+      ch_qc = ch_qc.mix(SAMTOOLS_STATS.out.idxstats)
+      ch_qc = ch_qc.mix(BCFTOOLS_STATS_MUTECT.out.stats)
+      ch_qc = ch_qc.mix(BCFTOOLS_STATS_VARSCAN.out.stats)
+      MULTIQC(ch_qc.collect())
+      ch_multiqc_html = MULTIQC.out.report
+    }
+
   emit:
-    pretty_csvs = COLLECT_PRETTY.out
+    pretty_csvs  = COLLECT_PRETTY.out
+    multiqc_html = ch_multiqc_html
 }

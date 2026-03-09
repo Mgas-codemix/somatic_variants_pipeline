@@ -1,0 +1,144 @@
+/* Somatic Variants Pipeline – Clinical Report Stylesheet */
+
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  color: #333;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4 {
+  color: #1a3a5c;
+  margin-top: 1.5em;
+}
+
+h1 {
+  font-size: 2em;
+  border-bottom: 3px solid #1a3a5c;
+  padding-bottom: 0.3em;
+}
+
+h2 {
+  font-size: 1.5em;
+  border-bottom: 1px solid #ccd;
+  padding-bottom: 0.2em;
+}
+
+/* Header banner */
+.report-header {
+  background: linear-gradient(135deg, #1a3a5c 0%, #2e6da4 100%);
+  color: white;
+  padding: 24px 32px;
+  border-radius: 6px;
+  margin-bottom: 2em;
+}
+
+.report-header h1 {
+  color: white;
+  border-bottom: none;
+  margin-top: 0;
+}
+
+.report-header .subtitle {
+  font-size: 1.1em;
+  opacity: 0.85;
+}
+
+/* Summary boxes */
+.summary-box {
+  background: #f4f8ff;
+  border-left: 4px solid #2e6da4;
+  border-radius: 4px;
+  padding: 16px 20px;
+  margin: 1em 0;
+}
+
+.summary-box.warning {
+  border-left-color: #e8a020;
+  background: #fffaf0;
+}
+
+.summary-box.pass {
+  border-left-color: #27ae60;
+  background: #f0fff4;
+}
+
+/* Tables */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 13px;
+}
+
+th {
+  background: #1a3a5c;
+  color: white;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+td {
+  padding: 7px 12px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+tr:nth-child(even) td {
+  background: #f7f7f7;
+}
+
+/* Badge-style QC pass/fail */
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.badge-pass  { background: #d4edda; color: #155724; }
+.badge-warn  { background: #fff3cd; color: #856404; }
+.badge-fail  { background: #f8d7da; color: #721c24; }
+
+/* QC section layout */
+.qc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  margin: 1em 0;
+}
+
+.qc-card {
+  background: #fff;
+  border: 1px solid #dde;
+  border-radius: 6px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.06);
+}
+
+.qc-card h4 {
+  margin-top: 0;
+  color: #2e6da4;
+  font-size: 1em;
+}
+
+/* Plot containers */
+.plot-container {
+  text-align: center;
+  margin: 1.5em 0;
+}
+
+.plot-container img {
+  max-width: 100%;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+}
+
+/* Footer */
+.report-footer {
+  border-top: 1px solid #ccd;
+  margin-top: 3em;
+  padding-top: 1em;
+  font-size: 12px;
+  color: #888;
+  text-align: center;
+}
