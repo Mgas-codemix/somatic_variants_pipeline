@@ -1,0 +1,204 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "https://raw.githubusercontent.com/Mgas-codemix/somatic_variants_pipeline/main/nextflow_schema.json",
+  "title": "Somatic Variants Pipeline",
+  "description": "Nextflow pipeline for somatic variant processing and annotation.",
+  "type": "object",
+  "definitions": {
+    "input_output_options": {
+      "title": "Input / output options",
+      "type": "object",
+      "fa_icon": "fas fa-terminal",
+      "properties": {
+        "samplesheet": {
+          "type": "string",
+          "description": "Path to sample sheet CSV.",
+          "fa_icon": "fas fa-file-csv"
+        },
+        "variants_dir": {
+          "type": "string",
+          "description": "Directory containing *_variants_pretty.csv files (alternative to samplesheet).",
+          "fa_icon": "fas fa-folder-open"
+        },
+        "outdir": {
+          "type": "string",
+          "default": "./results",
+          "description": "Output directory for all results.",
+          "fa_icon": "fas fa-folder"
+        },
+        "publish_mode": {
+          "type": "string",
+          "default": "copy",
+          "enum": ["copy", "symlink", "link", "move"],
+          "description": "Nextflow publishDir mode."
+        }
+      }
+    },
+    "reference_data_downstream": {
+      "title": "Reference data (downstream)",
+      "type": "object",
+      "properties": {
+        "target_bed": {
+          "type": "string",
+          "description": "Capture target BED file.",
+          "fa_icon": "fas fa-file"
+        },
+        "bait_bed": {
+          "type": "string",
+          "description": "Bait / padded BED file.",
+          "fa_icon": "fas fa-file"
+        },
+        "ref_rdata_dir": {
+          "type": "string",
+          "description": "Directory containing reference Rdata files."
+        },
+        "false_cancer_genes": {
+          "type": "string",
+          "description": "Path to falseCancerGenes.Rdata."
+        },
+        "gene_categories_repo": {
+          "type": "string",
+          "description": "Path to gene_categories_repo.Rdata."
+        },
+        "acc_actionable_164": {
+          "type": "string",
+          "description": "Path to ACC_actionable_164.Rdata."
+        },
+        "dgidb_tsv": {
+          "type": "string",
+          "description": "Path to DGIdb_interactions.tsv."
+        }
+      }
+    },
+    "reference_data_upstream": {
+      "title": "Reference data (upstream / from_fastq)",
+      "type": "object",
+      "properties": {
+        "ref_fasta": {
+          "type": "string",
+          "description": "Reference genome FASTA."
+        },
+        "bwa_index": {
+          "type": "string",
+          "description": "BWA index prefix (default: same as ref_fasta)."
+        },
+        "dbsnp_vcf": {
+          "type": "string",
+          "description": "dbSNP VCF for BQSR and MuTect."
+        },
+        "cosmic_vcf": {
+          "type": "string",
+          "description": "COSMIC VCF for MuTect."
+        },
+        "known_indels": {
+          "type": "string",
+          "description": "Known indels VCF for BQSR (optional)."
+        },
+        "annovar_basedir": {
+          "type": "string",
+          "description": "ANNOVAR installation directory."
+        },
+        "annovar_buildver": {
+          "type": "string",
+          "default": "hg38",
+          "description": "Genome build for ANNOVAR (hg38 or hg19)."
+        },
+        "adapter_r1": {
+          "type": "string",
+          "default": "AGATCGGAAGAGCACACGTCTGAACTCCAGTCA",
+          "description": "Illumina adapter for R1."
+        },
+        "adapter_r2": {
+          "type": "string",
+          "default": "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT",
+          "description": "Illumina adapter for R2."
+        }
+      }
+    },
+    "thresholds": {
+      "title": "Filtering thresholds",
+      "type": "object",
+      "properties": {
+        "min_freq": {
+          "type": "number",
+          "default": 0.05,
+          "description": "Minimum allele frequency for clinical reports."
+        },
+        "min_dp": {
+          "type": "integer",
+          "default": 10,
+          "description": "Minimum read depth for clinical reports."
+        },
+        "min_allele_frequency": {
+          "type": "number",
+          "default": 0.01,
+          "description": "Minimum allele frequency in caller merge step."
+        },
+        "min_cov_position": {
+          "type": "integer",
+          "default": 10,
+          "description": "Minimum coverage in caller merge step."
+        },
+        "varscan_min_coverage_tumor": {
+          "type": "integer",
+          "default": 10,
+          "description": "VarScan minimum coverage (tumor)."
+        },
+        "varscan_min_var_freq": {
+          "type": "number",
+          "default": 0.05,
+          "description": "VarScan minimum variant frequency."
+        }
+      }
+    },
+    "benchmarking": {
+      "title": "Benchmarking (optional)",
+      "type": "object",
+      "properties": {
+        "truth_vcf": {
+          "type": "string",
+          "description": "Truth set VCF (e.g. GIAB) for benchmarking."
+        },
+        "confident_bed": {
+          "type": "string",
+          "description": "Confident regions BED for benchmarking."
+        },
+        "run_benchmark": {
+          "type": "boolean",
+          "default": false,
+          "description": "Activate AUROC / PR curve benchmarking."
+        }
+      }
+    },
+    "flags": {
+      "title": "Run flags",
+      "type": "object",
+      "properties": {
+        "skip_cutadapt": {
+          "type": "boolean",
+          "default": false,
+          "description": "Skip Cutadapt adapter trimming (only run seqtk)."
+        },
+        "skip_fastqc": {
+          "type": "boolean",
+          "default": false,
+          "description": "Skip FastQC."
+        },
+        "run_mode": {
+          "type": "string",
+          "default": "from_pretty_csv",
+          "enum": ["from_pretty_csv", "from_fastq", "from_bam", "from_vcf"],
+          "description": "Pipeline entry mode."
+        }
+      }
+    }
+  },
+  "allOf": [
+    { "$ref": "#/definitions/input_output_options" },
+    { "$ref": "#/definitions/reference_data_downstream" },
+    { "$ref": "#/definitions/reference_data_upstream" },
+    { "$ref": "#/definitions/thresholds" },
+    { "$ref": "#/definitions/benchmarking" },
+    { "$ref": "#/definitions/flags" }
+  ]
+}

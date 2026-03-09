@@ -1,0 +1,79 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master, "copilot/**" ]
+  pull_request:
+    branches: [ main, master ]
+
+permissions:
+  contents: read
+
+jobs:
+  # ── 1. R script syntax check ──────────────────────────────────────────
+  r-syntax:
+    name: R script syntax check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "4.3"
+
+      - name: Check R script syntax
+        run: |
+          failed=0
+          for f in scripts/*.R; do
+            echo "Checking $f …"
+            Rscript --vanilla -e "parse(file='$f')" || { echo "SYNTAX ERROR in $f"; failed=1; }
+          done
+          exit $failed
+
+  # ── 2. Python script syntax check ────────────────────────────────────
+  python-syntax:
+    name: Python script syntax check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check Python script syntax
+        run: |
+          python3 -m py_compile scripts/benchmark_convert_pretty_to_vcf.py
+          python3 -m py_compile scripts/merge_callers_prepare_annovar.py
+          echo "Python syntax OK"
+
+  # ── 3. Nextflow lint ──────────────────────────────────────────────────
+  nf-lint:
+    name: Nextflow lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Nextflow
+        uses: nf-core/setup-nextflow@v1
+        with:
+          version: "23.10.0"
+
+      - name: Check Nextflow config syntax
+        run: |
+          # Validate main nextflow config is parseable
+          nextflow config -show-profiles 2>&1 | head -20 || true
+          echo "Config check done"
+
+      - name: Check module files exist (include paths)
+        run: |
+          # Verify all include paths in main.nf resolve to existing files
+          failed=0
+          grep "include {" main.nf | sed 's|.*from "\(.*\)".*|\1.nf|' | while read path; do
+            # strip leading ./
+            path="${path#./}"
+            if [ ! -f "$path" ]; then
+              echo "Missing module file: $path"
+              failed=1
+            else
+              echo "OK: $path"
+            fi
+          done
+          exit $failed

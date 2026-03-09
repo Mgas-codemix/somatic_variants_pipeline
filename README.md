@@ -1,6 +1,44 @@
 # Somatic Variants Pipeline
 
+[![Nextflow](https://img.shields.io/badge/nextflow%20DSL2-%E2%89%A522.0-23aa62.svg)](https://www.nextflow.io/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 Modular Nextflow pipeline for somatic variant processing and annotation: from FASTQ (or from pre-called pretty CSV) through alignment, calling, annotation, QC, and clinical reports.
+
+## Pipeline overview
+
+```mermaid
+flowchart TD
+    subgraph upstream["Upstream  (from_fastq)"]
+        A([FASTQ R1/R2]) --> B[TRIM_FASTQ\nCutadapt + seqtk]
+        B --> C[ALIGN_BWA]
+        C --> D[ADD_READ_GROUPS]
+        D --> E[MARK_DUPLICATES]
+        E --> F[BQSR]
+        F --> G[MUTECT]
+        F --> H[VARSCAN]
+        G --> I[MERGE_CALLERS_ANNOVAR]
+        H --> I
+        I --> J[COLLECT_PRETTY\n*_variants_pretty.csv]
+    end
+
+    subgraph downstream["Downstream  (from_pretty_csv or after from_fastq)"]
+        J --> K[PARSE_PRETTY_CSV\nmerged_variants.rds]
+        K --> L[ANNOTATE_TARGET_BAIT\nterritory annotation]
+        L --> M[SELECT_CANDIDATES\nselected column]
+        M --> N[ANNOTATE_FUNCTIONAL_DRUG\nmc · druggable · drug_interactions]
+        N --> O[QC_TERRITORIES\nvariants_on_territories.pdf]
+        N --> P[TMB\nTMB.csv · TMB_per_territories.pdf]
+        N --> Q[MAF_ANALYSIS\nmax_MAF_per_territories.pdf]
+        N --> R[CLINICAL_REPORTS\n*.drug.xlsx]
+    end
+
+    subgraph bench["Benchmarking  optional --run_benchmark"]
+        J --> S[benchmark_convert_pretty_to_vcf.py]
+        S --> T[BENCHMARK_VARIANTS\nvcfeval / hap.py]
+        T --> U[benchmark_performance.R\nROC · PR curves · AUROC]
+    end
+```
 
 ## Run modes
 
@@ -113,6 +151,15 @@ See `nextflow.config` and override as needed.
 - **Thresholds**: `min_freq`, `min_dp`, `tmb_ref_lines`, `min_allele_frequency`, `min_cov_position`, `varscan_min_coverage_tumor`, `varscan_min_var_freq`
 - **Flags**: `run_mode`, `skip_cutadapt`, `skip_fastqc`, `publish_mode`
 
+## Documentation
+
+| Guide | Description |
+|-------|-------------|
+| [docs/usage.md](docs/usage.md) | Prerequisites, installation (Conda / Docker / manual), samplesheet format, parameter reference, troubleshooting |
+| [docs/output.md](docs/output.md) | Every output file described, with column schemas and interpretation |
+| [docs/downstream_processing.md](docs/downstream_processing.md) | Step-by-step walkthrough of downstream pipeline with data-flow diagram |
+| [docs/benchmarking.md](docs/benchmarking.md) | How to run performance evaluation (AUROC, PR curves), obtain truth sets, interpret results |
+
 ## Output layout
 
 - **from_fastq**: `results/Variants/WXS/<sample>_variants_pretty.csv`, then same downstream outputs as below.
@@ -122,6 +169,8 @@ See `nextflow.config` and override as needed.
   `results/Results/Variant_calling/TMB_per_territories.pdf`,  
   `results/Tables/TMB.csv`,  
   `results/Results/Variant_calling/CLINICAL_REPORTS/*.xlsx`.
+
+See [docs/output.md](docs/output.md) for complete output documentation.
 
 ## Docker (reproducible runs)
 
