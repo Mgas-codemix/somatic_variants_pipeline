@@ -6,9 +6,31 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
-## [Unreleased]
+## [Unreleased] — somatic_variants_development
 
 ### Added
+
+#### Testing framework
+
+- **`scripts/run_pipeline_test.py`**: Self-contained Python test runner for all downstream pipeline steps.
+  - No R, Nextflow, Docker, or reference data required — only `matplotlib`, `numpy`, `scipy`, `pandas`.
+  - Exercises 8 pipeline steps: BED overlap, candidate selection, drug annotation, TMB, MAF, VCF conversion, ROC/PR.
+  - Generates **9 publication-quality PNG plots**: ROC curve, PR curve, territory bar (log-scale), MAF facets,
+    TMB bar (with 1/10/100 reference lines), variant type pie, FREQ histogram, CADD distribution, druggable summary.
+  - Produces a **structured HTML report** (`test_results/test_report.html`) with metrics, tables, file tree, and all plots.
+  - **Results (synthetic data):** 8/8 PASS · AUROC = 0.644 · AUPRC = 0.460 · best F1 = 0.635 @ threshold 0.26.
+
+- **`test_data/synthetic_pretty.csv`**: 120 synthetic variants across 2 samples with `truth_label` column.
+- **`test_data/samplesheet_pretty.csv`**: Samplesheet for `from_pretty_csv` entry point.
+- **`docs/testing.md`**: Comprehensive testing guide with quick-start, metrics, and troubleshooting FAQ.
+- **`docs/test_report/`**: Pre-computed HTML report + all CSV metrics + 9 PNG plots committed to repository.
+
+#### CI
+
+- **`.github/workflows/ci.yml`**: `python-test` job runs `run_pipeline_test.py` on every push/PR;
+  uploads `test_results/` as 30-day artifact.
+
+### Added (from previous iteration)
 
 #### Downstream R scripts — full implementation replacing stubs
 
