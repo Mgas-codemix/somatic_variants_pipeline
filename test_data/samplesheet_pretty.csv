@@ -1,0 +1,4 @@
+sample_id,run_mode,patient_id,kit,project,variants_pretty_csv,fastq_r1,fastq_r2,bam,tumor_sample_id,normal_sample_id,adapter_r1,adapter_r2,cancer_site,read_group_id,read_group_lb,read_group_pl,read_group_sm,read_group_pu
+sample1,from_pretty_csv,PAT001,WHOLE_EXOME,test_project,test_data/sample1_variants_pretty.csv,,,,,,,,lung,,,,,
+sample2,from_pretty_csv,PAT002,WHOLE_EXOME,test_project,test_data/sample2_variants_pretty.csv,,,,,,,,melanoma,,,,,
+sample3,from_pretty_csv,PAT003,WHOLE_EXOME,test_project,test_data/sample3_variants_pretty.csv,,,,,,,,colorectal,,,,,
