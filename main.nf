@@ -74,9 +74,9 @@ ch_samplesheet_pretty = Channel
   .fromPath(samplesheet)
   .splitCsv(header: true, strip: true)
   .filter { it.run_mode == "from_pretty_csv" }
-  .map { row -> [ row.sample_id, file(row.variants_pretty_csv?.trim()), row.patient_id ?: row.sample_id, row.kit ?: "WHOLE_EXOME", row.project ?: "default" ] }
-  .collect()
-  .map { list -> [ list, list.collect { it[1] } ] }
+  .map { row -> tuple(row.sample_id, file(row.variants_pretty_csv?.trim()), row.patient_id ?: row.sample_id, row.kit ?: "WHOLE_EXOME", row.project ?: "default") }
+  .toList()
+  .map { rows -> tuple(rows, rows.collect { it[1] }) }
 
 ch_fastq_rows = Channel
   .fromPath(samplesheet)

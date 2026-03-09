@@ -102,7 +102,10 @@ jobs:
         run: |
           # Verify all include paths in main.nf resolve to existing files
           failed=0
-          grep "include {" main.nf | sed 's|.*from "\(.*\)".*|\1.nf|' | while read path; do
+          # Use process substitution (< <(...)) instead of a pipe so that
+          # assignments to 'failed' inside the while loop remain visible in
+          # the parent shell (a piped while loop runs in a subshell).
+          while IFS= read -r path; do
             # strip leading ./
             path="${path#./}"
             if [ ! -f "$path" ]; then
@@ -111,7 +114,7 @@ jobs:
             else
               echo "OK: $path"
             fi
-          done
+          done < <(grep "include {" main.nf | sed 's|.*from "\(.*\)".*|\1|')
           exit $failed
 
   # ── 4. downstream-nextflow-test (from_pretty_csv end-to-end) ─────────

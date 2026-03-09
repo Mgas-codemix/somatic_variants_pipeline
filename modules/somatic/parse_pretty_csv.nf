@@ -14,8 +14,8 @@ process PARSE_PRETTY_CSV {
     def sample_ids = sample_list.collect { it[0] }.join(",")
     """
     Rscript ${projectDir}/scripts/parse_and_enrich.R \\
-      --csv_paths "${csv_paths}" \\
-      --sample_ids "${sample_ids}" \\
-      --output merged_variants.rds
+      --csv_paths="${csv_paths}" \\
+      --sample_ids="${sample_ids}" \\
+      --output=merged_variants.rds
     """
 }
