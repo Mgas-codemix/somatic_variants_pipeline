@@ -159,6 +159,35 @@ See `nextflow.config` and override as needed.
 | [docs/output.md](docs/output.md) | Every output file described, with column schemas and interpretation |
 | [docs/downstream_processing.md](docs/downstream_processing.md) | Step-by-step walkthrough of downstream pipeline with data-flow diagram |
 | [docs/benchmarking.md](docs/benchmarking.md) | How to run performance evaluation (AUROC, PR curves), obtain truth sets, interpret results |
+| [docs/testing.md](docs/testing.md) | **How to test the pipeline** — quick start, expected outputs, pre-computed metrics |
+
+## Testing (quick start — no Nextflow or R required)
+
+```bash
+# Install Python plotting deps (once)
+pip install matplotlib numpy scipy pandas
+
+# Run all downstream tests + generate report
+python3 scripts/run_pipeline_test.py
+# → test_results/test_report.html  (HTML report with all plots and metrics)
+```
+
+See [docs/testing.md](docs/testing.md) for full details and [docs/test_report/test_report.html](docs/test_report/test_report.html) for a pre-computed report.
+
+### Pre-computed test metrics (synthetic data)
+
+| Metric | Result |
+|--------|--------|
+| Samples | SAMPLE_A, SAMPLE_B |
+| Total variants | 120 |
+| On-target variants | 52 (43%) |
+| **AUROC (FREQ score)** | **0.644** |
+| **AUPRC (FREQ score)** | **0.460** |
+| Best F1 | 0.635 @ threshold 0.26 |
+
+**ROC Curve** | **Precision-Recall Curve**
+:---: | :---:
+![ROC](docs/test_report/plots/roc_curve.png) | ![PR](docs/test_report/plots/pr_curve.png)
 
 ## Output layout
 

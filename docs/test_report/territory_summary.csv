@@ -1,0 +1,7 @@
+sample,territory,count
+SAMPLE_A,on_target,26
+SAMPLE_A,on_bait,4
+SAMPLE_A,off,28
+SAMPLE_B,on_target,26
+SAMPLE_B,on_bait,0
+SAMPLE_B,off,36

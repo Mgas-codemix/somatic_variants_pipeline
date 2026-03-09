@@ -31,18 +31,54 @@ jobs:
           done
           exit $failed
 
-  # ── 2. Python script syntax check ────────────────────────────────────
-  python-syntax:
-    name: Python script syntax check
+  # ── 2. Python script syntax + downstream pipeline test ────────────────
+  python-test:
+    name: Python syntax + downstream pipeline test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Python dependencies
+        run: pip install matplotlib numpy scipy pandas
 
       - name: Check Python script syntax
         run: |
           python3 -m py_compile scripts/benchmark_convert_pretty_to_vcf.py
           python3 -m py_compile scripts/merge_callers_prepare_annovar.py
+          python3 -m py_compile scripts/run_pipeline_test.py
           echo "Python syntax OK"
+
+      - name: Run downstream pipeline test
+        run: |
+          python3 scripts/run_pipeline_test.py \
+            --data   test_data/synthetic_pretty.csv \
+            --target test_data/target.bed \
+            --bait   test_data/bait.bed \
+            --outdir /tmp/ci_test_results
+
+      - name: Show test summary
+        if: always()
+        run: |
+          echo "=== benchmark_summary.csv ==="
+          cat /tmp/ci_test_results/benchmark_summary.csv || true
+          echo "=== territory_summary.csv ==="
+          cat /tmp/ci_test_results/territory_summary.csv || true
+          echo "=== tmb_summary.csv ==="
+          cat /tmp/ci_test_results/tmb_summary.csv || true
+          ls /tmp/ci_test_results/plots/ || true
+
+      - name: Upload test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pipeline-test-report
+          path: /tmp/ci_test_results/
+          retention-days: 30
 
   # ── 3. Nextflow lint ──────────────────────────────────────────────────
   nf-lint:
