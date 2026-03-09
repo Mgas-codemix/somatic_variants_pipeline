@@ -1,3 +1,4 @@
-sample_id,run_mode,kit,project,variants_pretty_csv
-SAMPLE_A,from_pretty_csv,WHOLE_EXOME,test_project,test_data/synthetic_pretty.csv
-SAMPLE_B,from_pretty_csv,WHOLE_EXOME,test_project,test_data/synthetic_pretty.csv
+sample_id,run_mode,patient_id,kit,project,variants_pretty_csv
+SAMPLE_A,from_pretty_csv,PAT_A,WHOLE_EXOME,test_project,test_data/sample1_variants_pretty.csv
+SAMPLE_B,from_pretty_csv,PAT_B,WHOLE_EXOME,test_project,test_data/sample2_variants_pretty.csv
+SAMPLE_C,from_pretty_csv,PAT_C,WHOLE_EXOME,test_project,test_data/sample3_variants_pretty.csv

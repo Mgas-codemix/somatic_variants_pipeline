@@ -37,3 +37,6 @@ test_data/*.fastq*
 scripts/__pycache__/
 .nextflow/
 work/
+
+# Allow small mock VCF files committed for testing
+!test_data/reference/*.vcf

@@ -21,3 +21,15 @@ nextflow run main.nf -entry from_pretty_csv \
     -c test_data/params_from_pretty_csv_test.config \
     -profile local \
     "$@"
+
+# Validate all expected outputs exist and are non-empty
+OUTDIR=$(grep -m1 'outdir' test_data/params_from_pretty_csv_test.config \
+           | sed 's/.*=\s*"\(.*\)".*/\1/' | xargs)
+OUTDIR="${OUTDIR:-results_test_pretty}"
+echo ""
+echo "=== Validating outputs in ${OUTDIR} ==="
+bash scripts/validate_test_outputs.sh "${OUTDIR}"
+
+echo ""
+echo "=== Test completed successfully ==="
+
