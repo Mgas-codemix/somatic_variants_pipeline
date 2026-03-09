@@ -31,7 +31,6 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   uploads `test_results/` as 30-day artifact.
 
 ### Added (from previous iteration)
-
 #### Downstream R scripts — full implementation replacing stubs
 
 - **`scripts/annotate_target.R`**: Real BED overlap annotation (`get_on_target` logic from Variants_Analysis doc).
