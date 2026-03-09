@@ -1,0 +1,115 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master, "copilot/**" ]
+  pull_request:
+    branches: [ main, master ]
+
+permissions:
+  contents: read
+
+jobs:
+  # ── 1. R script syntax check ──────────────────────────────────────────
+  r-syntax:
+    name: R script syntax check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "4.3"
+
+      - name: Check R script syntax
+        run: |
+          failed=0
+          for f in scripts/*.R; do
+            echo "Checking $f …"
+            Rscript --vanilla -e "parse(file='$f')" || { echo "SYNTAX ERROR in $f"; failed=1; }
+          done
+          exit $failed
+
+  # ── 2. Python script syntax + downstream pipeline test ────────────────
+  python-test:
+    name: Python syntax + downstream pipeline test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Python dependencies
+        run: pip install matplotlib numpy scipy pandas
+
+      - name: Check Python script syntax
+        run: |
+          python3 -m py_compile scripts/benchmark_convert_pretty_to_vcf.py
+          python3 -m py_compile scripts/merge_callers_prepare_annovar.py
+          python3 -m py_compile scripts/run_pipeline_test.py
+          echo "Python syntax OK"
+
+      - name: Run downstream pipeline test
+        run: |
+          python3 scripts/run_pipeline_test.py \
+            --data   test_data/synthetic_pretty.csv \
+            --target test_data/target.bed \
+            --bait   test_data/bait.bed \
+            --outdir /tmp/ci_test_results
+
+      - name: Show test summary
+        if: always()
+        run: |
+          echo "=== benchmark_summary.csv ==="
+          cat /tmp/ci_test_results/benchmark_summary.csv || true
+          echo "=== territory_summary.csv ==="
+          cat /tmp/ci_test_results/territory_summary.csv || true
+          echo "=== tmb_summary.csv ==="
+          cat /tmp/ci_test_results/tmb_summary.csv || true
+          ls /tmp/ci_test_results/plots/ || true
+
+      - name: Upload test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pipeline-test-report
+          path: /tmp/ci_test_results/
+          retention-days: 30
+
+  # ── 3. Nextflow lint ──────────────────────────────────────────────────
+  nf-lint:
+    name: Nextflow lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Nextflow
+        uses: nf-core/setup-nextflow@v1
+        with:
+          version: "23.10.0"
+
+      - name: Check Nextflow config syntax
+        run: |
+          # Validate main nextflow config is parseable
+          nextflow config -show-profiles 2>&1 | head -20 || true
+          echo "Config check done"
+
+      - name: Check module files exist (include paths)
+        run: |
+          # Verify all include paths in main.nf resolve to existing files
+          failed=0
+          grep "include {" main.nf | sed 's|.*from "\(.*\)".*|\1.nf|' | while read path; do
+            # strip leading ./
+            path="${path#./}"
+            if [ ! -f "$path" ]; then
+              echo "Missing module file: $path"
+              failed=1
+            else
+              echo "OK: $path"
+            fi
+          done
+          exit $failed

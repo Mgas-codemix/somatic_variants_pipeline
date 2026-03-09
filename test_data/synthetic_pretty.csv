@@ -1,0 +1,121 @@
+id,Chr,Start,End,Ref,Alt,Func.refGene,Gene.refGene,GeneDetail.refGene,ExonicFunc.refGene,AAChange.refGene,snp138,cosmic70,CLINSIG,CADD13_PHRED,DP,FREQ,method,n_methods,sample,truth_label
+SAMPLE_A_chr1:14750,chr1,22000,22001,A,C,exonic,NF2,.,nonsynonymous SNV,p.A734C,rs4003402,.,benign,3.96,294,0.0846,VarScan,1,SAMPLE_A,0
+SAMPLE_A_chr17:7577080,chr1,24000,24001,G,GA,splicing,MLH1,.,splicing,p.G353GA,rs5747119,COSM6324,benign,24.74,96,0.0241,VarScan,1,SAMPLE_A,0
+SAMPLE_A_chr2:7247,chr2,16000,16001,G,GT,exonic,IDH1,.,frameshift deletion,p.G876GT,rs1266941,COSM3833,uncertain_significance,3.68,208,0.6331,VarScan,1,SAMPLE_A,0
+SAMPLE_A_chr2:6889,chr2,18500,18501,G,GT,exonic,MLH1,.,frameshift deletion,p.G547GT,.,.,pathogenic,13.59,98,0.5455,MuTect,1,SAMPLE_A,0
+SAMPLE_A_chr2:6973,chr2,6973,6974,A,AC,exonic,ALK,.,stopgain,p.A217AC,.,.,likely_pathogenic,8.47,300,0.603,VarScan,1,SAMPLE_A,1
+SAMPLE_A_chr7:140453307,chr7,140453307,140453308,C,CT,exonic,TTN,.,stoploss,p.C598CT,.,.,pathogenic,5.86,249,0.5962,MuTect,1,SAMPLE_A,0
+SAMPLE_A_chr17:41244660,chr17,41244660,41244661,C,CT,exonic,VHL,.,frameshift deletion,p.C542CT,.,COSM6352,pathogenic,30.28,39,0.0773,MuTect,1,SAMPLE_A,0
+SAMPLE_A_chr2:22381,chr2,22381,22382,G,GA,exonic,KRAS,.,frameshift insertion,p.G270GA,rs2753446,.,.,26.53,289,0.0922,MuTect:VarScan,2,SAMPLE_A,0
+SAMPLE_A_chr1:50434,chr1,50434,50435,G,GA,splicing,PTEN,.,splicing,p.G614GA,.,.,pathogenic,21.7,274,0.208,MuTect,1,SAMPLE_A,0
+SAMPLE_A_chr7:99519,chr7,99519,99520,A,AC,exonic,APC,.,nonframeshift deletion,p.A132AC,.,.,pathogenic,9.14,172,0.5736,MuTect,1,SAMPLE_A,0
+SAMPLE_A_chr13:32936503,chr13,32936503,32936504,C,CT,splicing,OBSCN,.,splicing,p.C922CT,.,.,.,32.58,123,0.2866,MuTect:VarScan,2,SAMPLE_A,0
+SAMPLE_A_chr13:32936485,chr13,32936485,32936486,A,C,exonic,NF2,.,nonsynonymous SNV,p.A73C,.,COSM1204,benign,8.82,298,0.0333,MuTect,1,SAMPLE_A,0
+SAMPLE_A_chr2:9185,chr2,9185,9186,T,TA,exonic,TTN,.,stopgain,p.T747TA,rs7331838,.,likely_pathogenic,9.26,257,0.1034,VarScan,1,SAMPLE_A,0
+SAMPLE_A_chr1:10562,chr1,10562,10563,T,TA,splicing,ROS1,.,splicing,p.T78TA,.,.,likely_benign,9.45,70,0.5244,MuTect,1,SAMPLE_A,0
+SAMPLE_A_chr13:32936283,chr13,32936283,32936284,T,TA,splicing,CSMD3,.,splicing,p.T400TA,.,.,likely_benign,6.65,136,0.6305,VarScan,1,SAMPLE_A,0
+SAMPLE_A_chr2:8792,chr2,8792,8793,C,CA,exonic,ERBB2,.,frameshift insertion,p.C322CA,rs1081186,.,pathogenic,23.5,299,0.4802,VarScan,1,SAMPLE_A,1
+SAMPLE_A_chr1:11098,chr1,11098,11099,A,AC,exonic,FN1,.,frameshift deletion,p.A965AC,rs1240194,.,likely_benign,2.93,95,0.5572,MuTect:VarScan,2,SAMPLE_A,0
+SAMPLE_A_chr2:22108,chr2,22108,22109,C,CT,exonic,EGFR,.,frameshift insertion,p.C661CT,.,.,likely_pathogenic,11.76,282,0.2841,VarScan,1,SAMPLE_A,1
+SAMPLE_A_chr2:8823,chr2,8823,8824,G,A,exonic,BRCA2,.,nonsynonymous SNV,p.G162A,.,.,likely_benign,3.49,66,0.4113,MuTect,1,SAMPLE_A,0
+SAMPLE_A_chr13:120126,chr13,120126,120127,C,G,exonic,OBSCN,.,nonsynonymous SNV,p.C620G,rs1895765,.,likely_benign,32.68,168,0.5348,MuTect,1,SAMPLE_A,0
+SAMPLE_A_chr2:21851,chr2,21851,21852,A,AT,exonic,NF1,.,frameshift insertion,p.A134AT,.,.,benign,17.61,273,0.5573,MuTect,1,SAMPLE_A,1
+SAMPLE_A_chr2:7259,chr2,7259,7260,C,CT,exonic,ARID1A,.,frameshift deletion,p.C43CT,rs6294416,.,likely_benign,4.8,19,0.2894,MuTect:VarScan,2,SAMPLE_A,0
+SAMPLE_A_chr2:9420,chr2,9420,9421,T,TG,exonic,EGFR,.,nonframeshift deletion,p.T1000TG,.,.,likely_benign,23.68,142,0.1523,VarScan,1,SAMPLE_A,0
+SAMPLE_A_chr1:37525,chr1,37525,37526,C,CG,splicing,CDH1,.,splicing,p.C228CG,rs1913543,.,benign,28.28,225,0.2293,MuTect:VarScan,2,SAMPLE_A,0
+SAMPLE_A_chr2:8858,chr2,8858,8859,T,TC,splicing,BRAF,.,splicing,p.T522TC,rs1264686,.,uncertain_significance,1.8,129,0.5689,MuTect,1,SAMPLE_A,0
+SAMPLE_A_chr17:41245397,chr17,41245397,41245398,A,C,exonic,TP53,.,nonsynonymous SNV,p.A524C,.,.,uncertain_significance,20.74,106,0.6314,VarScan,1,SAMPLE_A,1
+SAMPLE_A_chr1:38421,chr1,38421,38422,C,CG,exonic,STK11,.,stopgain,p.C680CG,.,.,uncertain_significance,18.68,15,0.4665,MuTect:VarScan,2,SAMPLE_A,1
+SAMPLE_A_chr1:15019,chr1,15019,15020,T,TG,exonic,BRAF,.,frameshift insertion,p.T309TG,.,.,likely_benign,19.85,166,0.2255,MuTect,1,SAMPLE_A,0
+SAMPLE_A_chr17:7576932,chr17,7576932,7576933,C,CT,exonic,MSH2,.,stopgain,p.C87CT,.,.,.,16.81,179,0.515,VarScan,1,SAMPLE_A,1
+SAMPLE_A_chr2:22179,chr2,22179,22180,C,A,exonic,KIT,.,nonsynonymous SNV,p.C75A,rs4207776,.,pathogenic,23.88,135,0.6198,MuTect,1,SAMPLE_A,1
+SAMPLE_A_chr13:120407,chr13,120407,120408,A,AC,exonic,STK11,.,frameshift insertion,p.A52AC,.,.,.,9.3,219,0.2619,MuTect:VarScan,2,SAMPLE_A,0
+SAMPLE_A_chr2:6967,chr2,6967,6968,T,TG,splicing,VHL,.,splicing,p.T254TG,.,COSM7877,likely_pathogenic,33.3,177,0.4406,VarScan,1,SAMPLE_A,1
+SAMPLE_A_chr2:21996,chr2,21996,21997,G,GT,exonic,RB1,.,stopgain,p.G220GT,rs2630518,.,.,8.97,161,0.0688,VarScan,1,SAMPLE_A,0
+SAMPLE_A_chr1:37917,chr1,37917,37918,A,AT,exonic,KIT,.,frameshift deletion,p.A874AT,.,COSM5863,uncertain_significance,29.32,120,0.2819,VarScan,1,SAMPLE_A,0
+SAMPLE_A_chr17:7577120,chr17,7577120,7577121,T,TG,exonic,NF2,.,stopgain,p.T929TG,rs7941505,.,pathogenic,12.43,214,0.326,MuTect:VarScan,2,SAMPLE_A,0
+SAMPLE_A_chr17:7576706,chr17,7576706,7576707,C,G,exonic,ERBB2,.,nonsynonymous SNV,p.C975G,.,.,likely_pathogenic,9.85,40,0.3109,VarScan,1,SAMPLE_A,1
+SAMPLE_A_chr17:41245290,chr17,41245290,41245291,C,CT,exonic,PIK3CA,.,frameshift deletion,p.C21CT,rs775419,.,likely_benign,35.0,41,0.4919,VarScan,1,SAMPLE_A,1
+SAMPLE_A_chr1:12129,chr1,12129,12130,G,GA,exonic,FN1,.,frameshift insertion,p.G839GA,.,.,.,16.81,126,0.3753,VarScan,1,SAMPLE_A,0
+SAMPLE_A_chr1:14610,chr1,14610,14611,C,CA,exonic,TP53,.,nonframeshift deletion,p.C792CA,.,.,likely_benign,14.49,207,0.3828,MuTect:VarScan,2,SAMPLE_A,1
+SAMPLE_A_chr2:22114,chr2,22114,22115,G,GA,splicing,APC,.,splicing,p.G109GA,.,.,likely_pathogenic,12.8,36,0.3765,VarScan,1,SAMPLE_A,0
+SAMPLE_A_chr17:41245086,chr17,41245086,41245087,T,TC,exonic,IDH1,.,frameshift insertion,p.T252TC,.,.,uncertain_significance,33.83,282,0.2944,VarScan,1,SAMPLE_A,1
+SAMPLE_A_chr1:15402,chr1,15402,15403,G,GA,exonic,ARID1A,.,stopgain,p.G902GA,.,.,uncertain_significance,12.44,209,0.3128,VarScan,1,SAMPLE_A,1
+SAMPLE_A_chr2:21510,chr2,21510,21511,T,TG,exonic,OBSCN,.,nonframeshift deletion,p.T227TG,.,.,benign,17.61,223,0.0739,MuTect,1,SAMPLE_A,0
+SAMPLE_A_chr17:7576934,chr17,7576934,7576935,G,GC,exonic,MET,.,frameshift deletion,p.G739GC,.,.,uncertain_significance,34.89,232,0.3545,MuTect:VarScan,2,SAMPLE_A,1
+SAMPLE_A_chr2:8622,chr2,8622,8623,G,GT,exonic,CSMD3,.,nonframeshift deletion,p.G103GT,.,.,pathogenic,8.36,113,0.4548,VarScan,1,SAMPLE_A,0
+SAMPLE_A_chr2:8732,chr2,8732,8733,A,T,exonic,MET,.,nonsynonymous SNV,p.A13T,rs2218618,.,likely_pathogenic,5.3,288,0.0289,MuTect,1,SAMPLE_A,0
+SAMPLE_A_chr2:8990,chr2,8990,8991,A,AC,exonic,ARID1A,.,stoploss,p.A577AC,.,COSM978,likely_benign,33.0,144,0.6283,VarScan,1,SAMPLE_A,1
+SAMPLE_A_chr2:6754,chr2,6754,6755,T,TC,exonic,APC,.,frameshift deletion,p.T62TC,rs9973813,.,uncertain_significance,27.37,130,0.2822,VarScan,1,SAMPLE_A,1
+SAMPLE_A_chr1:12640,chr1,12640,12641,C,CA,exonic,NF1,.,stopgain,p.C238CA,.,.,likely_pathogenic,6.91,137,0.0711,MuTect,1,SAMPLE_A,0
+SAMPLE_A_chr2:21789,chr2,21789,21790,C,G,exonic,IDH1,.,nonsynonymous SNV,p.C74G,rs3871676,.,uncertain_significance,27.79,150,0.1671,MuTect:VarScan,2,SAMPLE_A,0
+SAMPLE_A_chr1:12811,chr1,12811,12812,G,GT,exonic,BRAF,.,frameshift insertion,p.G83GT,.,.,pathogenic,15.93,162,0.5393,VarScan,1,SAMPLE_A,1
+SAMPLE_A_chr1:38252,chr1,38252,38253,A,AT,exonic,NRAS,.,frameshift insertion,p.A668AT,.,.,likely_benign,33.7,132,0.0363,MuTect:VarScan,2,SAMPLE_A,0
+SAMPLE_A_chr13:119685,chr13,119685,119686,G,GC,exonic,ERBB2,.,frameshift insertion,p.G508GC,.,.,uncertain_significance,16.98,61,0.3298,VarScan,1,SAMPLE_A,1
+SAMPLE_A_chr2:22467,chr2,22467,22468,G,GA,splicing,ROS1,.,splicing,p.G2GA,.,.,pathogenic,3.99,247,0.3666,VarScan,1,SAMPLE_A,0
+SAMPLE_A_chr13:119555,chr13,119555,119556,C,CG,exonic,STK11,.,frameshift deletion,p.C497CG,.,.,likely_pathogenic,22.26,270,0.4123,MuTect,1,SAMPLE_A,0
+SAMPLE_A_chr1:11496,chr1,11496,11497,C,CA,exonic,RB1,.,frameshift insertion,p.C299CA,.,COSM2622,likely_pathogenic,19.78,22,0.2158,MuTect,1,SAMPLE_A,0
+SAMPLE_A_chr2:9354,chr2,9354,9355,C,CA,exonic,FN1,.,nonframeshift deletion,p.C3CA,rs7061578,.,pathogenic,5.92,297,0.1736,MuTect,1,SAMPLE_A,0
+SAMPLE_A_chr2:21805,chr2,21805,21806,T,TC,splicing,TTN,.,splicing,p.T393TC,.,.,.,12.73,262,0.3013,MuTect:VarScan,2,SAMPLE_A,0
+SAMPLE_B_chr17:7576946,chr17,7576946,7576947,C,CG,exonic,FN1,.,frameshift insertion,p.C896CG,.,COSM9769,uncertain_significance,34.61,212,0.5312,MuTect:VarScan,2,SAMPLE_B,0
+SAMPLE_B_chr13:32936770,chr13,32936770,32936771,G,T,exonic,IDH1,.,nonsynonymous SNV,p.G880T,.,.,uncertain_significance,3.54,94,0.1108,VarScan,1,SAMPLE_B,0
+SAMPLE_B_chr17:41245077,chr17,41245077,41245078,G,GA,splicing,TTN,.,splicing,p.G721GA,.,.,benign,8.98,50,0.0426,MuTect:VarScan,2,SAMPLE_B,0
+SAMPLE_B_chr1:37670,chr1,37670,37671,T,TA,exonic,BRAF,.,nonframeshift deletion,p.T81TA,rs7013081,.,likely_benign,10.97,43,0.049,VarScan,1,SAMPLE_B,0
+SAMPLE_B_chr17:7577130,chr17,7577130,7577131,T,TC,exonic,RET,.,stopgain,p.T307TC,.,COSM7337,uncertain_significance,9.68,250,0.4219,MuTect,1,SAMPLE_B,0
+SAMPLE_B_chr17:41244903,chr17,41244903,41244904,G,GT,exonic,BRAF,.,stopgain,p.G886GT,rs5053150,COSM6584,uncertain_significance,4.63,262,0.2624,VarScan,1,SAMPLE_B,1
+SAMPLE_B_chr1:50263,chr1,50263,50264,C,CT,splicing,TTN,.,splicing,p.C698CT,rs4304819,.,.,21.64,132,0.5888,VarScan,1,SAMPLE_B,0
+SAMPLE_B_chr1:11425,chr1,11425,11426,G,GC,exonic,EGFR,.,stopgain,p.G375GC,.,COSM2265,pathogenic,25.9,201,0.2977,MuTect,1,SAMPLE_B,0
+SAMPLE_B_chr2:6763,chr2,6763,6764,A,AC,exonic,FN1,.,nonframeshift deletion,p.A407AC,.,.,.,28.34,188,0.2059,VarScan,1,SAMPLE_B,0
+SAMPLE_B_chr7:140453445,chr7,140453445,140453446,G,T,exonic,ROS1,.,nonsynonymous SNV,p.G240T,.,.,uncertain_significance,13.53,247,0.358,MuTect:VarScan,2,SAMPLE_B,1
+SAMPLE_B_chr13:32936866,chr13,32936866,32936867,G,GT,exonic,NRAS,.,nonframeshift deletion,p.G119GT,.,COSM709,uncertain_significance,22.6,47,0.1595,VarScan,1,SAMPLE_B,0
+SAMPLE_B_chr1:12908,chr1,12908,12909,C,G,exonic,CSMD3,.,nonsynonymous SNV,p.C975G,.,.,pathogenic,15.25,291,0.3058,MuTect:VarScan,2,SAMPLE_B,0
+SAMPLE_B_chr2:7206,chr2,7206,7207,G,GT,exonic,MET,.,stopgain,p.G195GT,.,.,benign,30.09,135,0.3002,MuTect,1,SAMPLE_B,1
+SAMPLE_B_chr1:37593,chr1,37593,37594,C,CA,exonic,NF1,.,frameshift insertion,p.C222CA,.,.,pathogenic,2.72,25,0.3962,VarScan,1,SAMPLE_B,0
+SAMPLE_B_chr2:9292,chr2,9292,9293,C,CT,splicing,RET,.,splicing,p.C809CT,rs3027575,COSM522,likely_benign,30.19,156,0.3955,MuTect,1,SAMPLE_B,1
+SAMPLE_B_chr2:21831,chr2,21831,21832,A,G,exonic,TP53,.,nonsynonymous SNV,p.A516G,.,.,pathogenic,18.89,230,0.053,MuTect:VarScan,2,SAMPLE_B,1
+SAMPLE_B_chr2:21544,chr2,21544,21545,T,TC,exonic,OBSCN,.,stopgain,p.T83TC,.,.,likely_pathogenic,3.07,30,0.4253,VarScan,1,SAMPLE_B,0
+SAMPLE_B_chr7:140452703,chr7,140452703,140452704,G,GC,exonic,VHL,.,stopgain,p.G671GC,.,.,.,25.21,295,0.4188,VarScan,1,SAMPLE_B,1
+SAMPLE_B_chr2:8962,chr2,8962,8963,G,GC,exonic,NF2,.,stoploss,p.G486GC,.,.,likely_benign,15.14,219,0.5413,MuTect,1,SAMPLE_B,0
+SAMPLE_B_chr1:11351,chr1,11351,11352,A,T,exonic,PIK3CA,.,nonsynonymous SNV,p.A363T,.,.,.,28.6,205,0.0808,MuTect:VarScan,2,SAMPLE_B,1
+SAMPLE_B_chr17:7577612,chr17,7577612,7577613,T,TA,exonic,MSH2,.,frameshift insertion,p.T781TA,.,.,pathogenic,8.23,274,0.2415,MuTect:VarScan,2,SAMPLE_B,0
+SAMPLE_B_chr2:21731,chr2,21731,21732,G,GA,splicing,ERBB2,.,splicing,p.G891GA,rs5283902,.,uncertain_significance,1.89,300,0.634,MuTect:VarScan,2,SAMPLE_B,1
+SAMPLE_B_chr1:50173,chr1,50173,50174,C,G,exonic,ROS1,.,nonsynonymous SNV,p.C333G,.,.,uncertain_significance,4.12,30,0.4868,MuTect:VarScan,2,SAMPLE_B,0
+SAMPLE_B_chr1:10659,chr1,10659,10660,T,TC,splicing,MYC,.,splicing,p.T117TC,.,.,likely_benign,10.25,56,0.0514,MuTect:VarScan,2,SAMPLE_B,0
+SAMPLE_B_chr7:99613,chr7,99613,99614,C,CG,exonic,MSH2,.,frameshift insertion,p.C786CG,.,COSM3449,uncertain_significance,23.68,284,0.3937,MuTect,1,SAMPLE_B,0
+SAMPLE_B_chr1:14796,chr1,14796,14797,C,T,exonic,NRAS,.,nonsynonymous SNV,p.C883T,.,.,uncertain_significance,6.97,235,0.3334,VarScan,1,SAMPLE_B,1
+SAMPLE_B_chr1:37519,chr1,37519,37520,T,TC,exonic,IDH1,.,nonframeshift deletion,p.T633TC,rs449914,.,likely_benign,20.5,234,0.5631,MuTect:VarScan,2,SAMPLE_B,0
+SAMPLE_B_chr13:119590,chr13,119590,119591,G,GT,splicing,ERBB2,.,splicing,p.G649GT,.,.,likely_benign,18.81,220,0.1733,VarScan,1,SAMPLE_B,1
+SAMPLE_B_chr1:50022,chr1,50022,50023,G,GA,exonic,STK11,.,nonframeshift deletion,p.G975GA,rs2664729,.,.,9.03,90,0.2401,MuTect,1,SAMPLE_B,1
+SAMPLE_B_chr13:120272,chr13,120272,120273,G,GA,exonic,ARID1A,.,frameshift insertion,p.G282GA,.,.,.,30.38,180,0.5757,MuTect:VarScan,2,SAMPLE_B,1
+SAMPLE_B_chr1:15019,chr1,15019,15020,A,AT,exonic,BRCA2,.,stopgain,p.A394AT,.,.,pathogenic,13.54,44,0.3047,VarScan,1,SAMPLE_B,0
+SAMPLE_B_chr13:32936692,chr13,32936692,32936693,A,AG,exonic,STK11,.,stoploss,p.A449AG,.,COSM2927,benign,33.56,92,0.3196,VarScan,1,SAMPLE_B,1
+SAMPLE_B_chr13:32936604,chr13,32936604,32936605,G,GA,exonic,MET,.,nonframeshift deletion,p.G742GA,.,.,likely_pathogenic,24.08,188,0.2641,MuTect,1,SAMPLE_B,1
+SAMPLE_B_chr1:14583,chr1,14583,14584,A,AG,exonic,RET,.,nonframeshift deletion,p.A687AG,.,.,uncertain_significance,5.38,215,0.2154,MuTect:VarScan,2,SAMPLE_B,0
+SAMPLE_B_chr1:38020,chr1,38020,38021,C,A,exonic,MET,.,nonsynonymous SNV,p.C553A,.,COSM4946,benign,12.62,124,0.2146,VarScan,1,SAMPLE_B,0
+SAMPLE_B_chr1:15397,chr1,15397,15398,C,CT,exonic,VHL,.,frameshift insertion,p.C993CT,.,.,.,29.27,107,0.1172,MuTect:VarScan,2,SAMPLE_B,0
+SAMPLE_B_chr13:120270,chr13,120270,120271,G,GT,exonic,ARID1A,.,stopgain,p.G797GT,.,.,likely_pathogenic,31.74,255,0.1707,MuTect,1,SAMPLE_B,0
+SAMPLE_B_chr17:41245425,chr17,41245425,41245426,T,TC,splicing,MYC,.,splicing,p.T782TC,.,COSM8552,benign,30.68,85,0.5248,MuTect,1,SAMPLE_B,1
+SAMPLE_B_chr1:14960,chr1,14960,14961,A,G,exonic,MUC4,.,nonsynonymous SNV,p.A384G,rs8522281,.,likely_pathogenic,28.77,128,0.2956,VarScan,1,SAMPLE_B,0
+SAMPLE_B_chr2:6826,chr2,6826,6827,T,TG,splicing,PTEN,.,splicing,p.T6TG,.,.,likely_pathogenic,5.68,89,0.4295,VarScan,1,SAMPLE_B,0
+SAMPLE_B_chr1:10762,chr1,10762,10763,C,CG,splicing,NF1,.,splicing,p.C114CG,rs4100351,.,pathogenic,15.39,285,0.3657,VarScan,1,SAMPLE_B,1
+SAMPLE_B_chr13:32936879,chr13,32936879,32936880,G,GA,exonic,MUC4,.,frameshift insertion,p.G70GA,.,COSM1502,pathogenic,15.59,164,0.4727,MuTect:VarScan,2,SAMPLE_B,0
+SAMPLE_B_chr1:38394,chr1,38394,38395,G,A,exonic,FN1,.,nonsynonymous SNV,p.G596A,.,.,.,9.62,206,0.2637,MuTect,1,SAMPLE_B,0
+SAMPLE_B_chr7:140452681,chr7,140452681,140452682,T,TG,exonic,PDGFRA,.,frameshift deletion,p.T967TG,.,COSM2309,benign,29.23,104,0.5325,MuTect:VarScan,2,SAMPLE_B,1
+SAMPLE_B_chr13:32936532,chr13,32936532,32936533,T,G,exonic,STK11,.,nonsynonymous SNV,p.T800G,.,COSM3231,uncertain_significance,11.73,36,0.1457,VarScan,1,SAMPLE_B,0
+SAMPLE_B_chr1:14779,chr1,14779,14780,G,GA,splicing,APC,.,splicing,p.G85GA,.,.,pathogenic,26.27,219,0.2953,VarScan,1,SAMPLE_B,1
+SAMPLE_B_chr17:7577061,chr17,7577061,7577062,G,GC,exonic,CDH1,.,frameshift deletion,p.G458GC,.,.,.,12.15,55,0.2224,VarScan,1,SAMPLE_B,0
+SAMPLE_B_chr1:15129,chr1,15129,15130,T,TC,exonic,ERBB2,.,stopgain,p.T147TC,.,.,likely_benign,3.55,44,0.6374,MuTect:VarScan,2,SAMPLE_B,0
+SAMPLE_B_chr13:32936361,chr13,32936361,32936362,A,AT,exonic,BRCA2,.,stopgain,p.A79AT,rs7648448,.,uncertain_significance,14.02,200,0.4265,MuTect:VarScan,2,SAMPLE_B,1
+SAMPLE_B_chr1:49875,chr1,49875,49876,T,TG,exonic,ROS1,.,stoploss,p.T721TG,.,.,uncertain_significance,1.88,73,0.1956,MuTect,1,SAMPLE_B,0
+SAMPLE_B_chr13:32936858,chr13,32936858,32936859,T,TA,exonic,MSH2,.,frameshift insertion,p.T991TA,.,.,benign,5.17,117,0.6491,MuTect,1,SAMPLE_B,0
+SAMPLE_B_chr7:100226,chr7,100226,100227,C,CG,exonic,BRCA2,.,frameshift deletion,p.C506CG,.,COSM3392,likely_benign,29.95,168,0.2029,MuTect:VarScan,2,SAMPLE_B,1
+SAMPLE_B_chr1:15067,chr1,15067,15068,A,AG,exonic,MET,.,frameshift deletion,p.A788AG,.,.,likely_pathogenic,21.81,81,0.6393,MuTect,1,SAMPLE_B,1
+SAMPLE_B_chr17:7576749,chr17,7576749,7576750,C,CA,exonic,NRAS,.,frameshift insertion,p.C531CA,.,.,benign,12.71,279,0.3035,MuTect:VarScan,2,SAMPLE_B,0
+SAMPLE_B_chr1:14668,chr1,14668,14669,G,GA,exonic,MYC,.,stoploss,p.G547GA,rs9341585,.,.,33.21,192,0.4669,MuTect:VarScan,2,SAMPLE_B,1
+SAMPLE_B_chr1:50156,chr1,50156,50157,G,GT,exonic,MYC,.,frameshift insertion,p.G786GT,rs576028,COSM9549,uncertain_significance,23.4,102,0.3858,MuTect:VarScan,2,SAMPLE_B,1
+SAMPLE_B_chr17:7577130,chr17,7577130,7577131,T,TC,exonic,CSMD3,.,stopgain,p.T496TC,.,.,likely_benign,9.33,262,0.6227,MuTect:VarScan,2,SAMPLE_B,0
+SAMPLE_B_chr13:32936580,chr13,32936580,32936581,G,GT,exonic,RET,.,stopgain,p.G461GT,.,.,likely_pathogenic,34.16,191,0.4726,MuTect,1,SAMPLE_B,1
+SAMPLE_B_chr2:6599,chr2,6599,6600,G,GT,exonic,BRCA1,.,stopgain,p.G479GT,.,COSM2710,likely_pathogenic,9.44,229,0.262,MuTect,1,SAMPLE_B,0
+SAMPLE_B_chr13:120009,chr13,120009,120010,G,A,exonic,TP53,.,nonsynonymous SNV,p.G293A,rs8402946,.,.,33.87,249,0.2677,MuTect,1,SAMPLE_B,1
+SAMPLE_B_chr1:10941,chr1,10941,10942,A,AT,splicing,VHL,.,splicing,p.A517AT,.,.,uncertain_significance,13.44,221,0.4783,VarScan,1,SAMPLE_B,1
+SAMPLE_B_chr13:120345,chr13,120345,120346,G,A,exonic,APC,.,nonsynonymous SNV,p.G141A,rs8641658,.,benign,28.03,206,0.0809,VarScan,1,SAMPLE_B,1

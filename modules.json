@@ -1,0 +1,7 @@
+{
+  "name": "somatic_variants_pipeline",
+  "homePage": "https://github.com/Mgas-codemix/somatic_variants_pipeline",
+  "description": "Somatic variants Nextflow pipeline – nf-core module tracking",
+  "nf_core_version": "2.14.1",
+  "modules": {}
+}

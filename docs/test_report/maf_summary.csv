@@ -1,0 +1,9 @@
+sample,subset,max_MAF
+SAMPLE_A,all,0.6331
+SAMPLE_B,all,0.6491
+SAMPLE_A,on_target,0.6283
+SAMPLE_B,on_target,0.6393
+SAMPLE_A,selected,0.6331
+SAMPLE_B,selected,0.6491
+SAMPLE_A,selected_on_target,0.6283
+SAMPLE_B,selected_on_target,0.6393

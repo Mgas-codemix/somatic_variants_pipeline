@@ -4,6 +4,11 @@
 
 FROM ubuntu:22.04
 
+LABEL org.opencontainers.image.title="somatic-variants-pipeline" \
+      org.opencontainers.image.description="Somatic Variants Pipeline — bioinformatics tools and R packages" \
+      org.opencontainers.image.url="https://github.com/Mgas-codemix/somatic_variants_pipeline" \
+      org.opencontainers.image.licenses="MIT"
+
 ENV DEBIAN_FRONTEND=noninteractive
 ENV LANG=C.UTF-8
 
@@ -46,7 +51,10 @@ RUN wget -q https://github.com/lh3/seqtk/archive/refs/tags/v1.4.tar.gz -O /tmp/s
     && rm -rf /tmp/seqtk*
 
 # R packages required by pipeline scripts
-RUN R -e "install.packages(c('data.table', 'xlsx'), repos='https://cloud.r-project.org/', Ncpus=2)"
+RUN R -e "install.packages(c('data.table', 'ggplot2', 'ggsci', 'ggpubr', 'reshape2', 'openxlsx', 'pROC'), repos='https://cloud.r-project.org/', Ncpus=2)"
+
+# Bioconductor packages for real BED interval overlap
+RUN R -e "if (!requireNamespace('BiocManager', quietly=TRUE)) install.packages('BiocManager', repos='https://cloud.r-project.org/'); BiocManager::install(c('GenomicRanges', 'IRanges', 'S4Vectors'), ask=FALSE)"
 
 # Install Java tools to /opt
 ENV OPT=/opt/somatic
