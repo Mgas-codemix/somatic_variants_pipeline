@@ -34,3 +34,6 @@ results_from_*/
 *.fastq.gz
 test_data/*.fq
 test_data/*.fastq*
+scripts/__pycache__/
+.nextflow/
+work/

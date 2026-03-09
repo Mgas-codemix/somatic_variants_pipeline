@@ -1,0 +1,387 @@
+---
+title: "Somatic Variants – Clinical Report"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+format:
+  html:
+    self-contained: true
+    toc: true
+    toc-depth: 3
+    toc-title: "Contents"
+    css: clinical-report.css
+    include-after-body: clinical-report-extra.html
+    theme: flatly
+params:
+  somatic_rds:   "somatic_mutations.rds"
+  qc_pdf:        "variants_on_territories.pdf"
+  tmb_csv:       "TMB.csv"
+  maf_pdf:       "max_MAF_per_territories.pdf"
+  clinical_csv:  "clinical_reports.csv"
+  multiqc_html:  "multiqc_report.html"
+  base_path:     "."
+  example_mode:  true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+
+suppressPackageStartupMessages({
+  library(dplyr)
+  library(tidyr)
+  library(readr)
+  library(ggplot2)
+  library(knitr)
+  library(kableExtra)
+})
+
+# ── Resolve file paths ────────────────────────────────────────────────────────
+bp <- params$base_path
+
+resolve <- function(p) {
+  if (is.null(p) || p == "" || p == "NO_FILE") return(NULL)
+  if (file.exists(p)) return(p)
+  joined <- file.path(bp, basename(p))
+  if (file.exists(joined)) return(joined)
+  NULL
+}
+
+f_rds         <- resolve(params$somatic_rds)
+f_tmb         <- resolve(params$tmb_csv)
+f_clinical    <- resolve(params$clinical_csv)
+f_multiqc     <- resolve(params$multiqc_html)
+
+example_mode  <- params$example_mode ||
+  (is.null(f_rds) && is.null(f_tmb))
+
+# ── Helper: coloured badge ────────────────────────────────────────────────────
+badge <- function(label, type = "pass") {
+  cls <- switch(type, pass = "badge-pass", warn = "badge-warn", fail = "badge-fail", "badge-pass")
+  htmltools::HTML(sprintf('<span class="badge %s">%s</span>', cls, label))
+}
+```
+
+::: {.report-header}
+# Somatic Variants Clinical Report
+
+::: {.subtitle}
+Somatic Variants Pipeline &nbsp;|&nbsp; `r format(Sys.time(), "%d %B %Y")`
+:::
+:::
+
+```{r meta-banner, results='asis'}
+if (example_mode) {
+  cat('<div class="summary-box warning">',
+      '<strong>⚠ Example / Demo Mode</strong> – Pipeline outputs were not found.',
+      'This report shows illustrative mock data for layout verification.',
+      '</div>')
+}
+```
+
+---
+
+## 1. Clinical Data
+
+```{r clinical-table}
+if (!is.null(f_clinical) && file.exists(f_clinical)) {
+  clin <- tryCatch(read_csv(f_clinical, show_col_types = FALSE), error = function(e) NULL)
+} else {
+  clin <- NULL
+}
+
+if (is.null(clin)) {
+  clin <- data.frame(
+    Parameter = c("Patient ID", "Sample ID", "Kit / Panel", "Project",
+                  "Report date", "Pipeline version"),
+    Value     = c("PT-EXAMPLE", "S-001", "Whole Exome", "Demo project",
+                  format(Sys.Date(), "%d %b %Y"), "somatic_variants_pipeline v1.0")
+  )
+}
+
+kable(clin, col.names = c("Parameter", "Value"),
+      format = "html", escape = FALSE) %>%
+  kable_styling(full_width = FALSE, bootstrap_options = c("striped", "hover", "condensed"))
+```
+
+---
+
+## 2. Executive Summary
+
+```{r exec-summary}
+n_somatic <- NA_integer_
+tmb_val   <- NA_real_
+
+if (!is.null(f_rds) && file.exists(f_rds)) {
+  tryCatch({
+    dat <- readRDS(f_rds)
+    n_somatic <- nrow(dat)
+  }, error = function(e) NULL)
+}
+
+if (!is.null(f_tmb) && file.exists(f_tmb)) {
+  tryCatch({
+    tmb_tbl <- read_csv(f_tmb, show_col_types = FALSE)
+    if ("TMB" %in% colnames(tmb_tbl)) tmb_val <- round(tmb_tbl$TMB[1], 2)
+  }, error = function(e) NULL)
+}
+
+if (is.na(n_somatic)) n_somatic <- 47L   # example
+if (is.na(tmb_val))   tmb_val   <- 4.2   # example
+
+tmb_class <- if (tmb_val >= 10) "High (≥10 mut/Mb)" else if (tmb_val >= 3) "Intermediate (3–10 mut/Mb)" else "Low (<3 mut/Mb)"
+tmb_badge <- if (tmb_val >= 10) badge("High", "fail") else if (tmb_val >= 3) badge("Intermediate", "warn") else badge("Low", "pass")
+```
+
+::: {.summary-box}
+**Total somatic variants detected:** `r n_somatic`  
+**Tumour mutational burden (TMB):** `r tmb_val` mut/Mb — `r tmb_class` `r tmb_badge`
+:::
+
+---
+
+## 3. MultiQC Quality Control {#multiqc-qc}
+
+```{r multiqc-section, results='asis'}
+if (!is.null(f_multiqc) && file.exists(f_multiqc)) {
+  cat(sprintf(
+    '<div class="summary-box pass"><strong>✔ MultiQC report available.</strong>
+    <a href="%s" target="_blank">Open full interactive MultiQC report</a></div>',
+    basename(f_multiqc)
+  ))
+} else {
+  cat('<div class="summary-box warning">MultiQC report not found.
+  Run the pipeline with <code>skip_multiqc = false</code> to generate QC aggregation.</div>')
+}
+```
+
+### 3.1 Pre-Alignment QC (FastQC)
+
+```{r fastqc-plots, results='asis'}
+plot_dir <- file.path(bp, "docs/test_report/plots")
+fq_qual  <- file.path(plot_dir, "fastqc_per_base_quality.png")
+fq_adapt <- file.path(plot_dir, "fastqc_adapter_content.png")
+
+show_img <- function(path, alt = "") {
+  if (file.exists(path)) {
+    cat(sprintf('<div class="plot-container"><img src="%s" alt="%s"/></div>', path, alt))
+  }
+}
+
+if (file.exists(fq_qual) || file.exists(fq_adapt)) {
+  show_img(fq_qual,  "Per-base sequence quality")
+  show_img(fq_adapt, "Adapter content")
+} else {
+  cat("*FastQC plots not found. Run the pipeline to generate.*")
+}
+```
+
+### 3.2 Post-Alignment QC (samtools stats, duplicates)
+
+```{r aln-plots, results='asis'}
+aln_plot  <- file.path(plot_dir, "alignment_stats.png")
+dup_plot  <- file.path(plot_dir, "duplication_rate.png")
+ins_plot  <- file.path(plot_dir, "insert_size_distribution.png")
+
+if (any(file.exists(c(aln_plot, dup_plot, ins_plot)))) {
+  show_img(aln_plot, "Alignment summary")
+  show_img(ins_plot, "Insert size distribution")
+  show_img(dup_plot, "Duplication rate")
+} else {
+  cat("*Post-alignment QC plots not found. Run the pipeline to generate.*")
+}
+```
+
+### 3.3 Post-Variant-Calling QC (bcftools stats)
+
+```{r vc-plots, results='asis'}
+vc_plot <- file.path(plot_dir, "variant_calling_stats.png")
+if (file.exists(vc_plot)) {
+  show_img(vc_plot, "Variant calling stats")
+} else {
+  cat("*Variant calling QC plots not found. Run the pipeline to generate.*")
+}
+```
+
+---
+
+## 4. Sequencing Results
+
+```{r seq-results}
+if (!is.null(f_rds) && file.exists(f_rds)) {
+  tryCatch({
+    dat <- readRDS(f_rds)
+  }, error = function(e) { dat <<- NULL })
+} else {
+  dat <- NULL
+}
+
+if (is.null(dat)) {
+  dat <- data.frame(
+    sample_id       = "S-001",
+    Chr             = c("chr7", "chr17", "chr3", "chr12"),
+    Start           = c(55174773L, 7674220L, 178936091L, 25398284L),
+    End             = c(55174773L, 7674220L, 178936091L, 25398284L),
+    Ref             = c("A", "C", "C", "G"),
+    Alt             = c("T", "T", "T", "A"),
+    Gene.refGene    = c("EGFR", "TP53", "PIK3CA", "KRAS"),
+    ExonicFunc.refGene = c("nonsynonymous SNV", "nonsynonymous SNV",
+                           "nonsynonymous SNV", "nonsynonymous SNV"),
+    AAChange.refGene = c("p.L858R", "p.R248W", "p.E545K", "p.G12D"),
+    FREQ            = c(0.42, 0.35, 0.18, 0.55),
+    DP              = c(312L, 198L, 245L, 420L),
+    method          = c("MuTect,VarScan", "MuTect", "VarScan", "MuTect,VarScan"),
+    stringsAsFactors = FALSE
+  )
+}
+```
+
+### 4.1 Somatic Summary
+
+```{r somatic-summary}
+if (nrow(dat) > 0) {
+  summ <- dat %>%
+    summarise(
+      `Total variants`     = n(),
+      `Coding SNVs`        = sum(grepl("nonsynonymous|stop|start", ExonicFunc.refGene, ignore.case = TRUE), na.rm = TRUE),
+      `Indels`             = sum(grepl("insert|delet|frameshift", ExonicFunc.refGene, ignore.case = TRUE), na.rm = TRUE),
+      `Median VAF (%)`     = round(median(FREQ, na.rm = TRUE) * 100, 1),
+      `Median depth`       = round(median(DP, na.rm = TRUE), 0),
+      .groups = "drop"
+    )
+  kable(summ, format = "html") %>%
+    kable_styling(full_width = FALSE, bootstrap_options = c("striped", "hover"))
+}
+```
+
+### 4.2 Variant Table
+
+```{r variant-table}
+display_cols <- intersect(
+  c("sample_id", "Gene.refGene", "Chr", "Start", "Ref", "Alt",
+    "ExonicFunc.refGene", "AAChange.refGene", "FREQ", "DP", "method"),
+  colnames(dat)
+)
+
+dat_disp <- dat[, display_cols, drop = FALSE]
+colnames(dat_disp) <- gsub("\\.refGene$", "", colnames(dat_disp))
+
+if ("FREQ" %in% colnames(dat_disp)) {
+  dat_disp$FREQ <- paste0(round(dat_disp$FREQ * 100, 1), "%")
+}
+
+kable(dat_disp, format = "html", escape = FALSE) %>%
+  kable_styling(
+    full_width        = TRUE,
+    bootstrap_options = c("striped", "hover", "condensed", "responsive")
+  ) %>%
+  scroll_box(width = "100%", height = "400px")
+```
+
+---
+
+## 5. TMB Analysis
+
+```{r tmb-plot, fig.width=7, fig.height=4}
+tmb_df <- tryCatch({
+  if (!is.null(f_tmb) && file.exists(f_tmb)) read_csv(f_tmb, show_col_types = FALSE)
+  else NULL
+}, error = function(e) NULL)
+
+if (is.null(tmb_df)) {
+  tmb_df <- data.frame(sample_id = "S-001", TMB = 4.2)
+}
+
+ref_lines <- c(1, 10, 100)
+
+ggplot(tmb_df, aes(x = factor(sample_id), y = TMB)) +
+  geom_bar(stat = "identity", fill = "#2e86c1", width = 0.5) +
+  geom_hline(yintercept = ref_lines, linetype = "dashed",
+             color = c("#27ae60", "#e67e22", "#e74c3c"),
+             linewidth = 0.6) +
+  annotate("text", x = Inf, y = ref_lines + c(0.3, 0.6, 3),
+           label = paste0(ref_lines, " mut/Mb"), hjust = 1.1,
+           size = 3, color = c("#27ae60", "#e67e22", "#e74c3c")) +
+  labs(title = "Tumour Mutational Burden (TMB)",
+       x = "Sample", y = "TMB (mutations / Mb)") +
+  theme_bw(base_size = 12) +
+  theme(plot.title = element_text(face = "bold"))
+```
+
+---
+
+## 6. Somatic Plots
+
+```{r somatic-plots, results='asis'}
+qc_pdf_path  <- resolve(params$qc_pdf)
+maf_pdf_path <- resolve(params$maf_pdf)
+
+for (pdf_path in c(qc_pdf_path, maf_pdf_path)) {
+  if (!is.null(pdf_path) && file.exists(pdf_path)) {
+    cat(sprintf(
+      '<p><a href="%s" target="_blank">📄 Open %s</a></p>\n',
+      pdf_path, basename(pdf_path)
+    ))
+  }
+}
+
+plot_dir2 <- file.path(bp, "docs/test_report/plots")
+ins2 <- file.path(plot_dir2, "insert_size_distribution.png")
+if (!is.null(qc_pdf_path) && !file.exists(qc_pdf_path) &&
+    !file.exists(ins2)) {
+  cat("*QC plots not available. Run the pipeline to generate.*")
+}
+```
+
+---
+
+## 7. Copy Number Variants (CNV)
+
+```{r cnv-section, results='asis'}
+cat('<div class="summary-box">CNV analysis is not yet integrated into this pipeline run.
+    Please refer to dedicated CNV workflow outputs if available.</div>')
+```
+
+---
+
+## 8. Structural Variants
+
+```{r sv-section, results='asis'}
+cat('<div class="summary-box">Structural variant calling is not performed in this run.</div>')
+```
+
+---
+
+## 9. Germline Variants
+
+```{r germline-section, results='asis'}
+cat('<div class="summary-box">Germline variant analysis is not included in this somatic-only run.</div>')
+```
+
+---
+
+## 10. Methods
+
+The somatic variants analysis was performed using the **Somatic Variants Pipeline** (Nextflow DSL2).
+
+**Upstream processing** (from FASTQ):
+
+1. **Quality trimming** – Cutadapt (adapter trimming) + seqtk trimfq (base-quality trimming)
+2. **Alignment** – BWA-MEM to hg38 reference
+3. **BAM processing** – Picard AddOrReplaceReadGroups, Picard MarkDuplicates, GATK BaseRecalibrator + PrintReads (BQSR)
+4. **Variant calling** – MuTect 1.x and VarScan 2 (mpileup2snp / mpileup2indel)
+5. **Annotation** – ANNOVAR (refGene, dbSNP, COSMIC, ClinVar, CADD)
+6. **QC aggregation** – FastQC (pre/post-trim), samtools stats, bcftools stats, MultiQC
+
+**Downstream processing** (from pretty CSV):
+
+1. **Target/bait annotation** – bedtools intersect with target and bait BED files
+2. **Candidate selection** – frequency/depth filtering, cancer gene list
+3. **Functional/drug annotation** – actionable variants, DGIdb
+4. **TMB** – variant count / exome target Mb
+5. **MAF analysis** – maximum allele frequency per territory
+
+---
+
+::: {.report-footer}
+Report generated by the Somatic Variants Pipeline &nbsp;|&nbsp;
+`r format(Sys.time(), "%Y-%m-%d %H:%M")` UTC  
+*This report is intended for research use only. Clinical decisions should not be made solely on the basis of this automated analysis.*
+:::

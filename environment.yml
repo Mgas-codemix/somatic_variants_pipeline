@@ -17,9 +17,19 @@ dependencies:
   # Nextflow requires Java 11+; GATK 3 / Picard work with Java 11
   - openjdk=11
   - nextflow>=22.0
-  # R and required R package (xlsx is optional; install via install_r_packages.R if needed)
+  # R and required R packages
   - r-base>=4.0
   - r-data.table
+  - r-ggplot2
+  - r-ggsci
+  - r-ggpubr
+  - r-reshape2
+  - r-openxlsx       # portable Excel; no Java dependency
+  - r-proc            # ROC / AUROC computation
+  # Bioconductor: real BED interval overlap
+  - bioconductor-genomicranges
+  - bioconductor-iranges
+  - bioconductor-s4vectors
   # Python (merge_callers_prepare_annovar.py uses only stdlib)
   - python>=3.8
   # Alignment and QC (from_fastq upstream)
@@ -28,3 +38,12 @@ dependencies:
   - cutadapt
   - seqtk
   - fastqc
+  - multiqc
+  - bcftools
+  - r-dplyr
+  - r-tidyverse
+  - r-gt
+  - r-knitr
+  - r-dt
+  - r-rmarkdown
+  - r-ggplot2
