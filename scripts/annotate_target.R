@@ -49,18 +49,18 @@ overlap_bed <- function(variants_dt, bed_dt) {
   # Fallback: data.table non-equi join
   # BED is 0-based half-open [start, end) → convert to 1-based closed [start+1, end]
   vdt <- data.table(
-    idx  = seq_len(nrow(variants_dt)),
-    chr  = as.character(variants_dt$Chr),
-    pos  = as.integer(variants_dt$Start)
+    idx     = seq_len(nrow(variants_dt)),
+    chr     = as.character(variants_dt$Chr),
+    pos     = as.integer(variants_dt$Start),
+    pos_end = as.integer(variants_dt$Start)
   )
   # BED [start, end) -> 1-based [start+1, end]
   bdt <- copy(bed_dt)
   bdt[, start1 := start + 1L]
 
   setkey(bdt, chr, start1, end)
-  # foverlaps requires same key columns
-  setkey(vdt, chr, pos, pos)
-  hits <- foverlaps(vdt, bdt, by.x = c("chr", "pos", "pos"),
+  setkey(vdt, chr, pos, pos_end)
+  hits <- foverlaps(vdt, bdt, by.x = c("chr", "pos", "pos_end"),
                     by.y = c("chr", "start1", "end"),
                     type = "within", nomatch = NULL)
   result <- logical(nrow(variants_dt))
