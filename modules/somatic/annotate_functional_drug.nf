@@ -16,9 +16,9 @@ process ANNOTATE_FUNCTIONAL_DRUG {
     def dgidb_path = dgidb_tsv ?: ""
     """
     Rscript ${projectDir}/scripts/annotate_functional_drug.R \\
-      --input ${candidates_rds} \\
-      --acc_actionable "${acc_path}" \\
-      --dgidb "${dgidb_path}" \\
-      --output somatic_mutations.rds
+      --input=${candidates_rds} \\
+      --acc_actionable="${acc_path}" \\
+      --dgidb="${dgidb_path}" \\
+      --output=somatic_mutations.rds
     """
 }

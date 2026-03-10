@@ -14,8 +14,8 @@ process MAF_ANALYSIS {
   script:
     """
     Rscript ${projectDir}/scripts/maf_plots.R \\
-      --input ${somatic_rds} \\
-      --outdir ${outdir} \\
-      --pdf max_MAF_per_territories.pdf
+      --input=${somatic_rds} \\
+      --outdir=${outdir} \\
+      --pdf=max_MAF_per_territories.pdf
     """
 }

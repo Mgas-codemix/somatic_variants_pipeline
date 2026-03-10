@@ -17,9 +17,9 @@ process CLINICAL_REPORTS {
     """
     mkdir -p ${clinical_reports_dir}
     Rscript ${projectDir}/scripts/clinical_reports_xlsx.R \\
-      --input ${somatic_rds} \\
-      --outdir ${clinical_reports_dir} \\
-      --min_freq ${min_freq} \\
-      --min_dp ${min_dp}
+      --input=${somatic_rds} \\
+      --outdir=${clinical_reports_dir} \\
+      --min_freq=${min_freq} \\
+      --min_dp=${min_dp}
     """
 }

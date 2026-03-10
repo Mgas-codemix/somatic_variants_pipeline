@@ -18,10 +18,10 @@ process TMB {
     """
     mkdir -p ${tmb_dir}
     Rscript ${projectDir}/scripts/tmb.R \\
-      --input ${somatic_rds} \\
-      --target_bed ${target_bed} \\
-      --outdir ${outdir} \\
-      --tmb_csv TMB.csv \\
-      --ref_lines "${params.tmb_ref_lines.join(",")}"
+      --input=${somatic_rds} \\
+      --target_bed=${target_bed} \\
+      --outdir=${outdir} \\
+      --tmb_csv=TMB.csv \\
+      --ref_lines="${params.tmb_ref_lines.join(",")}"
     """
 }

@@ -14,9 +14,9 @@ process ANNOTATE_TARGET_BAIT {
   script:
     """
     Rscript ${projectDir}/scripts/annotate_target.R \\
-      --input ${merged_rds} \\
-      --target_bed ${target_bed} \\
-      --bait_bed ${bait_bed} \\
-      --output annotated_territory.rds
+      --input=${merged_rds} \\
+      --target_bed=${target_bed} \\
+      --bait_bed=${bait_bed} \\
+      --output=annotated_territory.rds
     """
 }
