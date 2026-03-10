@@ -14,9 +14,9 @@ process QC_TERRITORIES {
   script:
     """
     Rscript ${projectDir}/scripts/qc_territories.R \\
-      --input ${somatic_rds} \\
-      --target_bed ${target_bed} \\
-      --outdir ${outdir} \\
-      --pdf variants_on_territories.pdf
+      --input=${somatic_rds} \\
+      --target_bed=${target_bed} \\
+      --outdir=${outdir} \\
+      --pdf=variants_on_territories.pdf
     """
 }

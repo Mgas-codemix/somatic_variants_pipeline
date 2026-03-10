@@ -18,9 +18,9 @@ process SELECT_CANDIDATES {
     def gcr = gene_categories_repo ?: "${ref_dir}/gene_categories_repo.Rdata"
     """
     Rscript ${projectDir}/scripts/selection_candidates.R \\
-      --input ${annotated_rds} \\
-      --false_cancer_genes ${fcg} \\
-      --gene_categories_repo ${gcr} \\
-      --output candidates.rds
+      --input=${annotated_rds} \\
+      --false_cancer_genes=${fcg} \\
+      --gene_categories_repo=${gcr} \\
+      --output=candidates.rds
     """
 }
